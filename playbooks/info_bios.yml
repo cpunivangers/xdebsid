@@ -1,0 +1,12 @@
+---
+- name: wakeonline
+  import_playbook: wakeonlan.yml
+  
+- hosts: all
+
+  tasks:
+
+  - debug:
+      msg: "{{ inventory_hostname }} bios {{ ansible_facts.bios_version }}"
+
+

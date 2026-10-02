@@ -1,0 +1,125 @@
+---
+
+- name: outils de base | bash ...
+  apt:
+    state: present
+    name:
+    - bash-completion
+    - command-not-found
+    - yad
+    - zenity
+    - xmlstarlet
+    - xvfb
+    - libnotify-bin
+    # Voir l'espace occupé en ligne de commande
+    - ncdu
+    # Voir qui trafic sur internet en ligne de commande
+    - nethogs
+    # Voir qui Ecrit/lit sur le disque en ligne de commande
+    - iotop
+    # Communication avec x11 pour Debian en terminal
+    - dbus-x11
+    # Nettoyage nom de fichiers
+    - detox
+    # Doublons
+    - fdupes
+    # Clavier console
+    - console-setup
+    
+- name: outils de base | gestion des paquets
+  apt:
+    state: present
+    name:
+    #~ - software-properties-gtk # deb13 inexistant
+    - gnome-software
+    - debconf-utils
+    - gdebi
+    - apt-show-versions
+    - apt-rdepends
+    - unattended-upgrades
+    - package-update-indicator
+    - wget
+    - curl
+    - html-xml-utils
+    
+- name: outils de base | XDG
+  apt:
+    state: present
+    name:
+    - xdg-user-dirs
+    - xdg-user-dirs-gtk
+
+- name: outils de base | Infos Matériel
+  apt:
+    state: present
+    name:      
+    - lshw
+    - hardinfo
+    - inxi
+    - os-prober
+    - laptop-detect
+    # Disque
+    - gnome-disk-utility
+    - nvme-cli
+    - ethtool
+    - rfkill
+    
+- name: outils de base | Matériel
+  apt:
+    state: present
+    name:          
+    - firmware-linux-free
+    - firmware-linux-nonfree
+    - firmware-iwlwifi
+    - printer-driver-all
+    - firmware-realtek
+    # Video
+    - xserver-xorg-video-all
+    # Périphériques usb multimedia
+    - mtp-tools
+    - libmtp-runtime
+      
+- name: outils de base | System
+  apt:
+    state: present
+    name:          
+    # groupes/utilisateurs
+    - gnome-system-tools
+    - whois
+    # Config appli gnome
+    - dconf-cli
+    # Montage distant
+    - gvfs-backends
+    - progress
+    
+- name: outils de base | Montage partages windows
+  apt:
+    state: present
+    name:           
+    - cifs-utils
+    - keyutils
+    - gvfs-fuse
+    - smbclient
+    - dos2unix
+    - tofrodos
+
+- name: outils de base | Gestion des imprimantes
+  apt:
+    state: present
+    name:       
+    - system-config-printer
+    
+- name: outils de base | Gestion connections réseaux
+  apt:
+    state: present
+    name:           
+    - network-manager-gnome
+    
+- name: outils de base | ssh
+  apt:
+    state: present
+    name:           
+    - openssh-client
+    - sshpass
+    
+- import_tasks: laptop.yml

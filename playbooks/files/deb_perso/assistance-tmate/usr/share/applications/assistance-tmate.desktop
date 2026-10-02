@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - Assistance tmate
+Comment=Assistance chris.pottier@free.fr en ssh
+Exec=assistance-tmate
+Icon=help-browser
+Path=
+Terminal=true
+StartupNotify=false
+Categories=madeb;
+

@@ -1,0 +1,20 @@
+---
+
+- name: wps-2019-snap | snapd
+  apt:
+    name: snapd
+    
+- name: wps-2019-snap | core
+  snap:
+    name: core
+
+- name: wps-2019-snap | install wps-2019-snap
+  snap:
+    name: wps-2019-snap
+
+- name: wps-2019-snap | correction pour affichage des applications dans les menus
+  file:
+    src: /etc/profile.d/apps-bin-path.sh
+    dest: /etc/X11/Xsession.d/99snap
+    state: link
+    

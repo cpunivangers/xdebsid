@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - Installation
+Comment=Installation de mes compléments Debian avec ansible
+Exec=madeb
+Icon=madeb
+Path=
+Terminal=true
+StartupNotify=false
+Categories=madeb;

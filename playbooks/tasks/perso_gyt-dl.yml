@@ -1,0 +1,17 @@
+---
+
+# installation paquets perso
+
+- name : gui ytdl
+  set_fact:
+    pkg:
+      name: gyt-dl
+      url: /opt/deb_perso/gyt-dl.deb
+      vers: 221024.1514
+- import_tasks: url_pkg.yml
+
+- name: gui ytdl | lien pythpn vers python3
+  file:
+    src: /usr/bin/python3
+    dest: /usr/bin/python
+    state: link

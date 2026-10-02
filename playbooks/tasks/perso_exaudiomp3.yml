@@ -1,0 +1,11 @@
+---
+
+# installation paquets perso
+
+- name : extraction mp3
+  set_fact:
+    pkg:
+      name: exaudiomp3
+      url: /opt/deb_perso/exaudiomp3.deb
+      vers: 0.150908.0944
+- import_tasks: url_pkg.yml

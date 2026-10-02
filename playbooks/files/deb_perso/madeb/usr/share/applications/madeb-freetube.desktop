@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - freetube
+Comment=Installation ou maj freetube (client youtube)
+Exec=sudo bash task.sh freetube
+Icon=software-update-available
+Path=/opt/ansible/madeb13/
+Terminal=true
+StartupNotify=false
+Categories=madeb;

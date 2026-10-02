@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+</head>
+<body>
+<h2 id="kvm-partage-de-fichiers-avec-invité-windows">KVM Partage de fichiers avec invité Windows</h2>
+<h3 id="utilisation-de-remmina-comme-client-rdp-sur-la-machine-windows">Utilisation de Remmina comme client RDP sur la machine Windows</h3>
+<p>Avec le client Remmina, vous pouvez avoir un dossier partagé entre la machine hôte et la machine invité.<br />
+Vous pouvez trouver l’adresse IP de votre machine virtuelle dans les infos de la carte réseau de votre machine KVM 192.168.122.xxx.</p>
+<h3 id="avec-ssh-sshfs-windows">Avec SSH : SSHFS Windows</h3>
+<p><a href="https://github.com/winfsp/sshfs-win">https://github.com/winfsp/sshfs-win</a></p>
+<p>Installer WinFsp et SSHFS-Win sur la machine.</p>
+<p>Avec Winget dans un terminal en tant qu’administrateur :</p>
+<pre><code>winget install -h -e --id &quot;WinFsp.WinFsp&quot; &amp;&amp; winget install -h -e --id &quot;SSHFS-Win.SSHFS-Win&quot;</code></pre>
+<p>L’adresse IP de la machine hôte est normalement 192.168.122.1</p>
+<p>Exemple accès au dossier linux <strong>/home/c.pottier/TEMP</strong></p>
+<h4 id="par-lexplorateur-dans-la-barre-dadresse-saisir-le-chemin">par l’explorateur dans la barre d’adresse saisir le chemin :</h4>
+<pre><code>\\sshfs\c.pottier@192.168.122.1\TEMP</code></pre>
+<p>Vous pouvez ensuite épingler un dossier à l’accès rapide de l’explorateur.</p>
+<h4 id="par-un-mappage-de-lecteur-réseau">par un mappage de lecteur réseau :</h4>
+<p>Connecter un lecteur réseau :</p>
+<pre><code>Dossier : \\sshfs\c.pottier@192.168.122.1\TEMP
+
+Cocher &quot;Se connecter lors de la connexion&quot;</code></pre>
+</body>
+</html>

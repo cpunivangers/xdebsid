@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Exec=bash -c "xdg-open $XDG_RUNTIME_DIR/gvfs/" &
+Name=Dossiers Distants
+Icon=folder-remote
+GenericName=
+Comment=Points de montage de vos dossiers distants
+Path=
+Terminal=false
+StartupNotify=false
+Categories=System;Utility;
+

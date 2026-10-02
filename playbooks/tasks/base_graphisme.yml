@@ -1,0 +1,27 @@
+---
+
+- name: Graphisme
+  apt:
+    state: present
+    name:
+    # Gestionnaire de photos
+    - gthumb
+    # Capture d'écran
+    - shutter
+    # Outil Graphisme et svg
+    - imagemagick
+    - potrace
+    - webp
+    - librsvg2-bin
+    - eog
+    # Graphisme simple
+    - photoflare
+    - drawing
+    # Numérisation
+    - simple-scan
+    - gscan2pdf
+    - gimagereader
+    - tesseract-ocr-fra
+    # vectoriel
+    - inkscape
+

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - Edge-stable
+Comment=Installation Microsoft Edge Stable (pour PWA Teams, Office365)
+Exec=sudo bash task.sh microsoft-edge-stable
+Icon=software-update-available
+Path=/opt/ansible/madeb13/
+Terminal=true
+StartupNotify=false
+Categories=madeb;

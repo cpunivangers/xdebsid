@@ -1,0 +1,44 @@
+---
+
+# installation paquets perso
+
+- name: /opt/deb_perso 
+  copy:
+    src: deb_perso
+    dest: /opt/
+
+#~ - name: perso gyt-dl | suppression
+  #~ apt:
+    #~ state: absent
+    #~ name:
+    #~ - gyt-dl
+
+- import_tasks: perso_madeb.yml
+
+- import_tasks: perso_compresspdf.yml
+
+- import_tasks: perso_exaudiomp3.yml
+
+- import_tasks: perso_convmp4.yml
+
+- import_tasks: perso_epuboptim.yml
+
+#~ - import_tasks: perso_gyt-dl.yml
+
+- import_tasks: perso_assistance-tmate.yml
+
+- name: Acces GVFS
+  copy:
+    src: applications/{{ item }}
+    dest: /usr/share/applications/
+    mode: 0644
+  with_items:
+    - gvfs.desktop
+    
+- name: Lien Dossiers Distants GVFS
+  file:
+    src: /run/user/{{ ansible_facts.env.SUDO_UID }}/gvfs
+    dest: /home/{{ ansible_facts.env.SUDO_USER }}/Dossiers_Distants
+    state: link
+    force: yes
+

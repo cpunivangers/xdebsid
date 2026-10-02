@@ -1,0 +1,20 @@
+---
+- name: calibre | Version installé
+  shell: calibre --version 2> /dev/null | cut -d" " -f3 | cut -d\) -f1
+  register: vers_inst
+  changed_when: False
+
+- name: calibre | Version candidat
+  shell: curl -sL "https://calibre-ebook.com/fr/download_linux" 2> /dev/null | hxnormalize |  grep -i 'dernière version' | sed -n 's,.* la \(.*\)\..*$,\1,p'
+  register: vers_cand
+  changed_when: False
+
+#~ - debug:
+    #~ msg: "is_candidate_greater: {{ vers_cand.stdout is version(vers_inst.stdout, '>') }}"
+
+- name: calibre | Installé {{ vers_inst.stdout }} Candidat {{ vers_cand.stdout }}
+  shell: wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
+    
+  when:
+    - vers_inst.stdout | trim == "" or vers_cand.stdout is version(vers_inst.stdout | trim ~ ".0", '>')
+    #~ - vers_inst.stdout == "" or vers_cand.stdout is version(vers_inst.stdout,'>')    

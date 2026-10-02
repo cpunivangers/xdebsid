@@ -1,0 +1,11 @@
+---
+
+# installation paquets perso
+
+- name : convert mp4
+  set_fact:
+    pkg:
+      name: convmp4
+      url: /opt/deb_perso/convmp4.deb
+      vers: 191128.1213
+- import_tasks: url_pkg.yml

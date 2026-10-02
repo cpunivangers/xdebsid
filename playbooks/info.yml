@@ -1,0 +1,13 @@
+---
+- name: wakeonline
+  import_playbook: wakeonlan.yml
+  
+- hosts: all
+
+  tasks:
+
+  - import_tasks: tasks/info.yml
+
+  #~ - import_tasks: tasks/who.yml
+  
+#  - import_tasks: tasks/printers.yml

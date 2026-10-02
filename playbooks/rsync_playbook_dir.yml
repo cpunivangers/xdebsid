@@ -1,0 +1,23 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  # Donne les droits au groupe sudo pour rsync à distance
+  - name: sudoers 80rsync
+    copy:
+      src: sudoers.d/80rsync
+      dest: /etc/sudoers.d/80rsync
+      mode: 0440
+
+# ne marche pas !!!   lancer le script rsync_playbook_dir.sh   
+  #~ - name: rsync {{ playbook_dir }}
+    #~ synchronize:
+      #~ src: "{{ playbook_dir }}"
+      #~ dest: /opt/ansible/
+      #~ dest: TEMP/
+      #~ compress: no
+      #~ delete: yes
+      #~ owner: no
+      #~ group: no

@@ -1,0 +1,11 @@
+---
+
+# installation paquets perso
+
+- name : Compression pdf
+  set_fact:
+    pkg:
+      name: compresspdf
+      url: /opt/deb_perso/compresspdf.deb
+      vers: 240905.0952
+- import_tasks: url_pkg.yml

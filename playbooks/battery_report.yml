@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+  gather_facts: no
+
+  tasks:
+
+    - name: Etat de la baterie
+      shell: acpi -i
+      register: Rapport_batterie  
+
+    - debug : var=Rapport_batterie.stdout_lines

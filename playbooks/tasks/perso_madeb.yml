@@ -1,0 +1,11 @@
+---
+
+# installation paquets perso
+
+- name : madeb
+  set_fact:
+    pkg:
+      name: madeb
+      url: /opt/deb_perso/madeb.deb
+      vers: 251106.0846
+- import_tasks: url_pkg.yml

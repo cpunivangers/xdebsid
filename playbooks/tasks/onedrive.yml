@@ -1,0 +1,18 @@
+---
+
+- name: OneDrive | install onedrive
+  apt:
+    name: onedrive
+    state: latest
+
+#~ onedrive
+
+#~ Dans la console, vous récupérez une longue url à coller dans votre navigateur. Quand l’url est collée, vous vous identifiez, vous collez le lien apparu dans la console.
+
+#~ onedrive --synchronize
+
+#~ Cette opération va synchroniser votre répertoire OneDrive à la racine de votre home avec le répertoire distant. Pour démarrer onedrive au démarrage.
+
+#~ systemctl --user enable onedrive
+
+#~ systemctl --user start onedrive

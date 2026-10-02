@@ -1,0 +1,8 @@
+Package: compressPDF
+Version: 240905.0952
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash, ghostscript, zenity
+Maintainer: Christian Pottier <christian.pottier@univ-angers.fr>
+Description: Compression d'un document PDF

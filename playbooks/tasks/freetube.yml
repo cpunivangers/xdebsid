@@ -1,0 +1,35 @@
+---
+
+- name: freetube | url github
+  shell: |
+    # Dépot Github
+    #https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.12-beta/freetube_0.23.12_beta_amd64.deb
+    repoGit="FreeTubeApp/FreeTube"
+    #latest="https://github.com/$repoGit/releases/latest"
+    #VERSION=$(basename $(curl -sI "$latest" | grep -i "location" | dos2unix | cut -d" " -f2))
+    # version encore en beta
+    latest="https://github.com/$repoGit/releases/"
+    TAG=$(basename $(curl -sL $latest | hxnormalize | grep "release" | grep "beta" | head -1 | cut -d\" -f2))
+    VERSION=$(echo $TAG | cut -dv -f2 | cut -d- -f1)
+    nameExeGit="freetube_"$VERSION"_beta_amd64.deb"
+    echo "$latest/download/$TAG/$nameExeGit"
+
+  register: retour_href
+  changed_when: false
+
+- name: freetube | Version dispo {{ retour_href.stdout }}
+  shell: basename '{{ retour_href.stdout }}' | cut -d_ -f2
+  #~ args:
+    #~ warn: false
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+  register: retour_vers
+  changed_when: false
+
+- name : freetube | Version {{ retour_vers.stdout }}
+  set_fact:
+    pkg:
+      name: freetube
+      url: '{{ retour_href.stdout }}'
+      vers: '{{ retour_vers.stdout }}'
+
+- import_tasks: url_pkg.yml

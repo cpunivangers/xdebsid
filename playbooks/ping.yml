@@ -1,0 +1,9 @@
+# 26/04/2023 christian.pottier@univ-angers.fr
+
+- hosts: all
+  gather_facts: no
+  serial: 10
+  tasks:
+  
+  - name: ping {{ ansible_host }} {{ mac }}
+    ping:

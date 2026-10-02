@@ -1,0 +1,54 @@
+---
+
+# Virtualisation avec kvm
+
+- name: kvm | virt-manager
+  apt:
+    state: present
+    name: virt-manager
+
+- name: kvm | /etc/profile.d/libvirt_uri.sh
+  copy:
+    content: LIBVIRT_DEFAULT_URI=”qemu:///system”
+    dest: /etc/profile.d/libvirt_uri.sh
+
+
+- name: kvm | /etc/environment.d/80-libvirt_uri.conf
+  copy:
+    content: LIBVIRT_DEFAULT_URI=”qemu:///system”
+    dest: /etc/environment.d/80-libvirt_uri.conf
+
+- name: kvm |  Listes des utilisateurs
+  shell: ls -d /home/*/.config | cut -d/ -f3
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+  register: retour_shell
+  changed_when: false
+
+#~ - name: users
+  #~ debug:
+    #~ msg:
+      #~ - " {{ retour_shell.stdout_lines }}"
+    #~ verbosity: 1
+     
+# 
+
+- name: kvm | Ajout des utilisateurs aux groupes libvirt et kvm
+  user:
+    name: '{{ item }}'
+    groups: libvirt,kvm
+    append: yes
+  with_items: "{{ retour_shell.stdout_lines }}"
+
+- name: kvm | Répertoire /home/KVM
+  file:
+    path: /home/KVM
+    state: directory
+    group: kvm
+    mode: '2775'
+
+- name: kvm | Téléchargement pilotes virtio vers /home/KVM/virtio-win.iso
+  get_url:
+    url: 'https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso'
+    dest: /home/KVM/virtio-win.iso   
+    
+

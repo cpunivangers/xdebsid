@@ -1,0 +1,39 @@
+---
+
+- name: Internet
+  apt:
+    state: present
+    name:
+    # Navigateur web
+    - firefox-esr
+    - firefox-esr-l10n-fr
+    - chromium
+    - chromium-l10n
+    # Client messagerie
+    - thunderbird
+    - thunderbird-l10n-fr
+    # qr code wifi
+    - wifi-qr
+
+- name: Internet | Extensions Navigateur
+  apt:
+    state: present
+    name:
+    - webext-ublock-origin-firefox
+    #- webext-ublock-origin-chromium
+    #- webext-privacy-badger
+    #- webext-bulk-media-downloader
+    
+- name: Internet | téléchargement audio video yt-dlp
+  apt:
+    state: latest
+    name:
+    - yt-dlp
+    - youtubedl-gui
+    #default_release: '{{ ansible_facts["distribution_release"] }}-backports'
+
+- name: Internet | Suppression inutiles
+  apt:
+    state: absent
+    name:
+    - hexchat

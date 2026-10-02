@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  gather_facts: no
+  become: true
+
+  tasks:
+
+  - name: apt clean
+    # a partir de la version 2.13
+    apt:
+      clean: yes
+    #~ shell: apt clean
+    
+  - name: apt autoclean
+    apt:
+      autoclean: yes
+      
+  - name: apt autoremove
+    apt:
+      autoremove: yes

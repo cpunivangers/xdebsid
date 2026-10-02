@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Accessible pour tous les utilisateurs
+printf "%%plugdev\tALL= NOPASSWD: /opt/Pentablet-Driver/Pentablet_Driver.sh\n" | sudo tee /etc/sudoers.d/50-pentablet
+chmod 0440 /etc/sudoers.d/50-pentablet
+
+if [ -d /opt/Pentablet-Driver ]; then
+	exit 0
+fi
+
+# Téléchargement du driver
+#HREF=$(curl -sIL https://www.xp-pen.fr/download/file/id/1684/ext/zip.html | dos2unix | grep -i "location" | cut -d" " -f2)
+cd /tmp/
+rm -f Linux_Pentablet.zip
+wget -O Linux_Pentablet.zip "https://download01.xp-pen.com/file/2020/04/Linux_Pentablet_V1.2.13.1.tar.gz(20200428).zip" --show-progress
+if [ ! -f Linux_Pentablet.zip ] ; then
+	exit 1
+fi
+rm -f Linux_Pentablet_*.tar.gz
+unzip Linux_Pentablet.zip
+
+tar zxvf Linux_Pentablet_*.tar.gz -C /opt/
+
+sudo rm -rf /opt/Pentablet-Driver
+sudo mv /opt/Linux_Pentablet_* /opt/Pentablet-Driver
+#sudo chown -R /opt/Pentablet-Driver
+sudo chmod +x /opt/Pentablet-Driver
+
+
+exit 0

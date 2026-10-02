@@ -1,0 +1,37 @@
+---
+
+- name: Son Video | Complements
+  apt:
+    state: present
+    name:
+    # Capture d'écran
+    - kazam
+    # Alternative - vokostream
+    # Transcodeur
+    - handbrake
+    - handbrake-cli
+    # Montage Son
+    - audacity
+    # Montage video
+    - openshot
+    - shotcut
+    
+- name: flatpak
+  apt:
+    state: present
+    name:
+    - flatpak
+    
+- name: sonvideo | flatpak obs-studio
+  community.general.flatpak:
+    name: https://dl.flathub.org/repo/appstream/com.obsproject.Studio.flatpakref
+    state: present
+    
+- name: sonvideo | flatpak kdenlive
+  community.general.flatpak:
+    name: https://dl.flathub.org/repo/appstream/org.kde.kdenlive.flatpakref
+    state: present
+    
+#~ sudo flatpak install flathub org.kde.kdenlive
+#~ # Si nécessaire
+#~ sudo cp /var/lib/flatpak/app/org.kde.kdenlive/current/active/files/share/applications/org.kde.kdenlive.desktop /usr/share/applications/

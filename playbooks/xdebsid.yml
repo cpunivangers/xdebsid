@@ -1,0 +1,55 @@
+---
+
+# Base pour ma Debian sid
+# 12/03/2026 christian.pottier@univ-angers.fr
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: /usr/local/bin/xdebsid
+    copy:
+      content: |
+        #!/bin/bash
+        cd /opt/ansible/xdebsid
+        sudo bash xdebsid.sh
+        
+      dest: /usr/local/bin/xdebsid
+      mode: 0755
+
+  - name: /usr/local/bin/update_xdebsid
+    copy:
+      content: |
+        #!/bin/bash
+        cd /opt/ansible/xdebsid
+        bash update_xdebsid.sh
+        
+      dest: /usr/local/bin/update_xdebsid
+      mode: 0755
+
+  - import_tasks: tasks/base_depots.yml
+
+  - import_tasks: tasks/upgrade.yml
+
+  - import_tasks: tasks/base_outil.yml
+  
+  - import_tasks: tasks/base_accessoires.yml
+
+  - import_tasks: tasks/base_internet.yml
+
+  - import_tasks: tasks/base_bureautique.yml
+
+  - import_tasks: tasks/base_graphisme.yml
+
+  - import_tasks: tasks/base_sonvideo.yml
+
+  - import_tasks: tasks/base_jeux.yml
+
+  - import_tasks: tasks/hist_bashrc.yml
+
+  - import_tasks: tasks/conf_base.yml
+
+  - import_tasks: tasks/xfce.yml
+  
+  - import_tasks: tasks/deb_perso.yml
+

@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=14.3.24
+Type=Application
+Terminal=true
+Exec=gyt-dl
+Name=gyt-dl
+Comment=YouTube Downloader
+Icon=yt-dl.png
+Categories=Application;Network;
+

@@ -1,0 +1,64 @@
+---
+
+- name: chassis type
+  command: hostnamectl chassis
+  register: chassis_type
+  ignore_errors: true
+  changed_when: False
+  
+- name: Classifier laptop/desktop
+  set_fact:
+    machine_type: >
+      {% set ct = (chassis_type.stdout | default('') | lower | trim) %}
+      {% if ct in ['notebook','laptop','portable'] %}
+      laptop
+      {% elif ct in ['desktop','main'] %}
+      desktop
+      {% else %}
+      unknown
+      {% endif %}
+      
+- name: Afficher le résultat
+  debug:
+    msg: "Type de poste cible:  {{ machine_type | default('') | trim }}  (ChassisType= {{ chassis_type.stdout | default('') }})"
+
+- block:
+
+  - name: installation paquets tlp acpi
+    apt:
+      name:
+        - task-laptop
+        - tlp
+        - tlp-rdw
+        - acpi
+
+  - name: suppression numlock
+    apt:
+      name: numlockx
+      state: absent
+
+  - name: supp numlock dans lightdm.conf
+    replace:
+      path: /etc/lightdm/lightdm.conf
+      regexp: '/usr/bin/numlockx on'
+      replace: ''
+  - name: comment greeter-setup-script dans lightdm.conf
+    replace:
+      path: /etc/lightdm/lightdm.conf
+      regexp: '^greeter-setup-script='
+      replace: '#greeter-setup-script='
+
+  when: (machine_type | default('') | lower | trim) == 'laptop'
+
+- block:
+  - name: numlock
+    apt:
+      name: numlockx
+      state: present
+  - name: Active numlock dans lightdm.conf
+    replace:
+      path: /etc/lightdm/lightdm.conf
+      regexp: '^#greeter-setup-script='
+      replace: 'greeter-setup-script=/usr/bin/numlockx on'
+
+  when: (machine_type | default('') | lower | trim) == 'desktop'

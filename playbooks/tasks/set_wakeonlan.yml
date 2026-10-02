@@ -1,0 +1,26 @@
+---
+- name: WakeOnLan | Test interface {{ ansible_default_ipv4.interface }}
+  shell: |
+    ethtool {{ ansible_default_ipv4.interface }}  | grep 'Wake-on: g'
+  register: result_wol_check
+  changed_when: result_wol_check.rc == 1
+  failed_when: result_wol_check.rc > 1
+  
+#~ - debug: var=ansible_default_ipv4  
+#~ - debug: var=result_wol_check
+
+- name: WakeOnLan | activation avec ethtool interface {{ ansible_default_ipv4.interface }}
+  shell: ethtool -s {{ ansible_default_ipv4.interface }} wol g
+  #~ args:
+    #~ warn: false
+    
+  when: result_wol_check.rc == 1
+
+- name: WakeOnLan | activation avec nmcli interface {{ ansible_default_ipv4.interface }}
+  shell: |
+    NOM_CONNECTION=$(nmcli -t -f NAME c show --active)
+    nmcli c modify "$NOM_CONNECTION" 802-3-ethernet.wake-on-lan magic
+  #~ args:
+    #~ warn: false
+    
+  when: result_wol_check.rc == 1

@@ -1,0 +1,8 @@
+Package: assistance-tmate
+Version: 251104.0747
+Section: base
+Priority: optional
+Architecture: all
+Depends: tmate, xclip
+Maintainer: Christian Pottier <christian.pottier@univ-angers.fr>
+Description: Assistance avec tmate

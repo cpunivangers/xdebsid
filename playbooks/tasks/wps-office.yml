@@ -1,0 +1,39 @@
+---
+
+- name: wps-office | HREF
+  shell: |
+    echo "https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/10702/wps-office_11.1.0.10702.XA_amd64.deb"
+  #~ args:
+    #~ warn: false
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+  register: retour_href
+  changed_when: false
+
+- name: wps-office | Version dispo {{ retour_href.stdout }}
+  shell: basename '{{ retour_href.stdout }}' | cut -d_ -f2 | cut -d. -f1-4
+  #~ args:
+    #~ warn: false
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+  register: retour_vers
+  changed_when: false
+
+- name : wps-office | Version {{ retour_vers.stdout }}
+  set_fact:
+    pkg:
+      name: wps-office
+      url: '{{ retour_href.stdout }}'
+      vers: '{{ retour_vers.stdout }}'
+
+- import_tasks: url_pkg.yml
+
+# INUTILE
+#~ - name: wps-office | Téléchargement FR
+  #~ get_url:
+    #~ url: 'https://www.linuxtricks.fr/upload/wps-fr.tar.xz'
+    #~ dest: /tmp/wps-fr.tar.xz
+
+#~ - name: wps-office | untar FR
+  #~ unarchive:
+    #~ src: /tmp/wps-fr.tar.xz
+    #~ dest: /opt/kingsoft/wps-office/office6/mui/
+    #~ remote_src: yes

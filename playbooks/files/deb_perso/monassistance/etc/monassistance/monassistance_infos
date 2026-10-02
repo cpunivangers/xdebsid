@@ -1,0 +1,11 @@
+## Vos infos a renseigner :
+# Votre nom ou adresse courriel
+MONASSISTANCE_NOM="chris.pottier@free.fr"
+# L'adresse IP publique ou nom de domaine :
+MONASSISTANCE_IP="78.118.11.13"
+# Port de redirection pour le port ssh
+MONASSISTANCE_REDIRECT="22222"
+# Port de redirection pour le port ssh
+MONASSISTANCE_PORTSSH="22"
+# L'utilisateur qui se connecte à cette adresse
+MONASSISTANCE_USER="monassistance"

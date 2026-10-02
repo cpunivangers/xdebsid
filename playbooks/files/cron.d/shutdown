@@ -1,0 +1,9 @@
+#
+# 02/2020
+# christian.pottier@univ-angers.fr
+#  
+# Arrêt programmé de la machine
+#
+#################################################################
+#
+30 20 * * * root /bin/systemctl poweroff

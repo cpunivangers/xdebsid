@@ -1,0 +1,16 @@
+#!/bin/bash
+
+. /etc/monassistance/monassistance_infos
+
+IP_ASSISTANCE=` zenity --entry \
+--title="Assistance à distance $MONASSISTANCE_NOM" \
+--text="Saisissez Adresse IP ou le nom de domaine :" \
+--entry-text "$MONASSISTANCE_IP" `
+
+if [ -z "$IP_ASSISTANCE" ]; then
+	zenity --notification --window-icon="error" --text="Aucune adresse saisie !"
+else
+# A lancer manuellement #	monassistance_vino
+	autossh -f -o "StrictHostKeyChecking no" -i /etc/monassistance/monassistance_cle -NR $MONASSISTANCE_REDIRECT:localhost:$MONASSISTANCE_PORTSSH $MONASSISTANCE_USER@$IP_ASSISTANCE
+	zenity --notification --window-icon="info" --text="Assistance $MONASSISTANCE_NOM lancée. $IP_ASSISTANCE"
+fi

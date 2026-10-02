@@ -1,0 +1,41 @@
+Ça a fini par arrivé, j’ai perdu mon mot de passe de session. Et bien sûr, c’est le compte qui permet d’accéder au super-utilisateur.
+
+Trouver la solution fait perdre beaucoup de temps alors que c’est tout bête.
+
+    Rebootez votre PC
+    Appuyez sur Échappe (ou Shift sinon) pour faire apparaître la liste de choix pour lancer Ubuntu.
+    Prenez un recovery mode.
+    Allez sur le choix root.
+    Tapez ce qui suit (probablement en qwerty… courage) :
+
+    mount -o rw,remount /
+    passwd votre_log_de_session
+    reboot
+
+Et normalement c’est tout bon.
+
+Si comme moi, vous faîtes encore plus fort et ne vous souvenez pas de votre login. Vous devriez pouvoir le trouver vers la fin du fichier /etc/passwd.
+
+Avec grub :
+
+Au menu grub, appuyer sur la touche e pour éditer les paramètres du noyau
+
+Trouvez la ligne commençant par “linux” et ajoutez à la fin de la ligne (sans les guillemets) : ” init=/bin/bash”
+Après avoir ajouté l’instruction, faites : Ctrl+X ou F10 pour démarrer l’OS.
+
+Vous allez arrivé sur un terminal en mode root.
+
+ATTENTION le clavier est en QWERTY !
+
+Pour effectuer des modifications sur le système, il faut au préalable remonté le filesystem / en écriture à l’aide de cette commande :
+
+    mount –o remount /
+
+A présent, il ne reste plus qu’à changer le mot de passe avec la commande passwd :
+
+Exemple pour l'utilisateur "bonjour" :
+    passswd bonjour
+
+Saisir et confirmer votre nouveau mot de passe (Attention au clavier qwerty)
+
+Éteindre le pc en appuyant sur le bouton et redémarrer.

@@ -1,0 +1,25 @@
+---
+
+
+- name: Microsoft Edge stable | depot
+  deb822_repository:
+    name: vscodium
+    types: deb
+    uris: https://packages.microsoft.com/repos/edge
+    suites: stable
+    components: main
+    architectures: amd64
+    signed_by: https://packages.microsoft.com/keys/microsoft.asc
+    enabled: true
+    
+- name: Microsoft Edge stable | install
+  apt:
+    name: microsoft-edge-stable
+    update_cache: yes
+
+- name: Microsoft Edge stable | alternative x-www-browser priority -10
+  shell: |
+    update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/microsoft-edge-stable -10
+    update-alternatives --auto x-www-browser
+    update-alternatives --install /usr/bin/gnome-www-browser gnome-www-browser /usr/bin/microsoft-edge-stable -10
+    update-alternatives --install /usr/bin/microsoft-edge microsoft-edge /usr/bin/microsoft-edge-stable -10

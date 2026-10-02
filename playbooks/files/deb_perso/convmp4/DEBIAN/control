@@ -1,0 +1,8 @@
+Package: convmp4
+Version: 191128.1213
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash, ghostscript, zenity, ffmpeg
+Maintainer: Christian Pottier <christian.pottier@univ-angers.fr>
+Description: Conversion vidéo en mp4

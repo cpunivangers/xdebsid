@@ -1,0 +1,17 @@
+---
+# Markdown
+
+- name: Markdown | Editeur ghostwriter
+  apt:
+    state: latest
+    name:
+    - ghostwriter
+    
+- name: Markdown | outil pandoc
+  apt:
+    state: present
+    name:
+    - pandoc
+    #~ - wkhtmltopdf # deb13 inexistant remplacer par wkhtmltox github
+
+- import_tasks: wkhtmltox.yml

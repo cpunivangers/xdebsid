@@ -1,0 +1,99 @@
+#!/bin/sh
+ 
+# 03/2016
+# christian.pottier@univ-angers.fr
+#
+# Téléchargement (video ou son) ou lecteur externe de la video
+# utilise youtube-dl à l'origine
+
+# 04/03/2016 ajout 2> null à zenity pour éviter le message d'erreur : "Gtk-Message: GtkDialog mapped without a transient parent. This is discouraged."
+# 27/10/2020 Ajout saisie option video
+# 24/10/2022 remplacement youtube-dl par yt-dlp
+
+PASSCOLLER=$(xclip -o -selection clipboard)
+
+## Config
+YTDL_VIDEO=""
+YTDL_AUDIO=""
+YTDL_REP=""
+LECTEUR=""
+
+if [ -r $HOME/.config/gyt-dl ]; then
+	. $HOME/.config/gyt-dl
+fi
+
+if [ -z "$YTDL_VIDEO" ]; then
+#27/1020	YTDL_VIDEO="--write-sub --sub-lang 'fr'"
+	#~ YTDL_VIDEO="best"
+	YTDL_VIDEO=""
+fi
+
+if [ -z "$YTDL_AUDIO" ]; then
+	YTDL_AUDIO=" -x --audio-format mp3 "
+fi
+if [ -z "$YTDL_REP" ]; then
+	YTDL_REP="$HOME/Téléchargements"
+fi
+if [ -z "$LECTEUR" ]; then
+	LECTEUR="mpv"
+fi
+
+cd $YTDL_REP
+
+ACTION1="Téléchargement vidéo dans $YTDL_REP"
+ACTION2="Téléchargement audio dans $YTDL_REP"
+ACTION3="Voir la vidéo avec $LECTEUR"
+# Action
+#~ GYTDL=$(yad \
+	#~ --title="Gyt-dl" \
+	#~ --windows-icon="/usr/share/icons/yt-dl.png" \
+	#~ --width 800 --height 100 \
+	#~ --image="/usr/share/icons/yt-dl.png" \
+	#~ --form \
+	#~ --field="Entrez l'URL": \
+	#~ --field="Action":CB \
+	#~ "$PASSCOLLER" "$ACTION1!$ACTION2!$ACTION3" \
+	#~ )
+GYTDL=$(yad \
+	--title="Gyt-dl" \
+	--windows-icon="/usr/share/icons/yt-dl.png" \
+	--width 800 --height 100 \
+	--image="/usr/share/icons/yt-dl.png" \
+	--form \
+	--field="Entrez l'URL": "$PASSCOLLER"  \
+	--field="Format video": "$YTDL_VIDEO" \
+	--field="Action":CB "$ACTION1!$ACTION2!$ACTION3"  \
+	)
+# Si non validé (echap, annule)
+if [ $? -ne 0 ]; then
+    #On quitte le script
+    exit
+fi
+
+MYURL=$(echo "$GYTDL" | cut -d "|" -f1)
+YTDL_VIDEO="-f "$(echo "$GYTDL" | cut -d "|" -f2)
+ACTION=$(echo "$GYTDL" | cut -d "|" -f3)
+
+if [ -z $MYURL ]; then
+	exit
+fi
+
+#echo $GYTDL
+echo $MYURL
+echo $YTDL_VIDEO
+echo $ACTION
+
+case "$ACTION" in
+	"$ACTION1" )
+		echo $ACTION1
+		yt-dlp $YTDL_VIDEO "$MYURL" ;;
+	"$ACTION2" )
+		echo $ACTION2
+		yt-dlp $YTDL_AUDIO "$MYURL" ;;
+	"$ACTION3" )
+		echo $ACTION3
+		$LECTEUR "$MYURL" ;;		
+	*) ;;
+esac
+
+exit

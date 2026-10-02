@@ -1,0 +1,12 @@
+[Unit]
+Description=Partages ${NAME_SHARE} ${USER_LOCAL}
+
+[Mount]
+What=${PATH_SHARE}
+Where=/${PATH_MOUNT}
+Options=vers=default,credentials=$PATH_CRED,iocharset=utf8,rw,x-systemd.automount,noserverino,_netdev,uid=${USER_LOCAL}
+Type=cifs
+TimeoutSec=30
+
+[Install]
+WantedBy=multi-user.target

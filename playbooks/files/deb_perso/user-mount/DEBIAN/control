@@ -1,0 +1,8 @@
+Package: user-mount
+Version: 231006.1149
+Section: base
+Priority: optional
+Architecture: all
+Depends: cifs-utils, smbclient, yad, libsecret-tools, libnotify-bin, seahorse
+Maintainer: Christian Pottier <christian.pottier@univ-angers.fr>
+Description: Création des unit systemd pour le montage automatique des partages réseaux de l'utilisateur

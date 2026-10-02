@@ -1,0 +1,9 @@
+---
+
+- name: kdenlive bpo
+  apt:
+    state: latest
+    name:
+    - kdenlive
+
+# pour la dernière version : flatpak install flathub org.kde.kdenlive

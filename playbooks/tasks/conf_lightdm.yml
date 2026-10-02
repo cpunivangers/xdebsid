@@ -1,0 +1,7 @@
+---
+
+- name: lightdm | Afficher les utilisateurs au login
+  replace:
+    path: /etc/lightdm/lightdm.conf
+    regexp: '^#greeter-hide-users=false'
+    replace: 'greeter-hide-users=false'

@@ -1,0 +1,8 @@
+---
+
+- name: installation des paquets vlc-plugin
+  apt:
+    state: present
+    name:
+    - vlc-plugin-*
+

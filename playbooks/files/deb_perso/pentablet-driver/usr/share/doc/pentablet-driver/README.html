@@ -1,0 +1,91 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title></title></head><body><h1>pentablet-driver.deb</h1>
+
+<p><strong>Objectif :</strong>
+    Utilisation conjointe du pilote officiel pour les tablettes XP-PEN et des outils Wacom</p>
+
+<h2>Installation du paquet avec résolution des dépendances :</h2>
+
+<pre><code>sudo apt install ./pentablet-driver.deb
+</code></pre>
+
+<p>L&#39;installation :</p>
+
+<ul>
+<li>Télécharge le pilote officiel</li>
+<li>Décompresse le pilote dans  /opt/Pentablet-Driver</li>
+<li>Ajoute la tablette pour les outils wacom (/etc/X11/xorg.conf.d/50-pentablet.conf)</li>
+<li>Rend le pilote accessible pour tous.</li>
+<li>Ajoute l&#39;application <strong>Pentablet-Driver.desktop</strong></li>
+<li>Ajoute la commande <strong>xinput_calibrator2xsetwacom</strong> pour faciliter la calibration</li>
+</ul>
+
+<p><strong>Redémarrer votre ordinateur.</strong></p>
+
+<h2>L&#39;application Pentablet-Driver.desktop :</h2>
+
+<ul>
+<li><p>Lance l&#39;outil : /usr/local/bin/Pentablet-Profil [profil]</p>
+
+<ul>
+<li>Les profils sont stockés dans ~/.config/Pentablet</li>
+<li>Chaque profils est un dossier</li>
+<li>Un dossier Default est crée au premier lancement ~/.config/Pentablet/Default.</li>
+<li>Le dossier du profil contient le fichier config.xml pour le pilote XP-PEN Tablet et un script xsetwacom.sh si nécessaire.</li>
+<li><p>Si un nom de profil est passé à la ligne de commande, il sera utilisé (s&#39;il n&#39;existe pas, il est crée à partir du profil Default) :</p>
+
+<pre><code>/usr/local/bin/Pentablet-Profil MonProfil2
+</code></pre></li>
+</ul></li>
+<li><p>Lancement du pilote avec le fichier config.xml du profil et minimisation de la fenêtre.</p></li>
+<li><p>Si un script xsetwacom.sh est trouvé dans le profil, il est executé.</p></li>
+<li><p>A la fermeture du pilote le fichier config.xml est sauvegardé dans le profil.</p></li>
+</ul>
+
+<h2>Script de configuration :</h2>
+
+<p>Le calibrage va varier en fonction de la configuration matériel (Ecrans, branchement de la tablette &hellip;)</p>
+
+<ul>
+<li><p>Mettre la tablette en <strong>miroir de l&#39;écran</strong></p></li>
+<li><p><strong>Lancement de l&#39;application Pentablet-Driver</strong></p></li>
+<li><p>Dans le pilote, mettre <strong>Mapping sur AllSreen</strong> et sauvegarder.</p></li>
+<li><p>Ouvrir un terminal</p>
+
+<p><strong>Mappage de l&#39;écran</strong></p>
+
+<p>pour repérer l&#39;écran de la tablette lancer la commande :</p>
+
+<pre><code>xrandr
+</code></pre>
+
+<p>Exemple mappage avec le 2ème display port :</p>
+
+<pre><code>xinput --map-to-output &quot;XPPEN Tablet stylus&quot; DP-2
+xsetwacom set &quot;XPPEN Tablet stylus&quot; MapToOutput DP-2
+</code></pre>
+
+<p><strong>Calibration</strong></p>
+
+<p>Lancer la calibration :</p>
+
+<pre><code>xinput_calibrator --device &quot;XPPEN Tablet stylus&quot;
+</code></pre>
+
+<p>pour xsetxacom area = MinX MinY MaxX MaxY</p>
+
+<pre><code>xsetwacom set &quot;XPPEN Tablet stylus&quot; area -238 89 31663 25027
+</code></pre>
+
+<p>Pouvez aussi utiliser la commande <strong>xinput_calibrator2xsetwacom</strong> qui affiche la commande xsetwacom après calibration et l’exécute.</p>
+
+<p>Quand le calibrage vous convient, enregistrer les commandes dans le script :</p>
+
+<pre><code>echo &#39;xinput --map-to-output &quot;XPPEN Tablet stylus&quot; DP-2&#39; &gt; ~/.config/Pentablet/Default/xsetwacom.sh
+echo &#39;xsetwacom set &quot;XPPEN Tablet stylus&quot; MapToOutput DP-2&#39; &gt;&gt; ~/.config/Pentablet/Default/xsetwacom.sh
+echo &#39;xsetwacom set &quot;XPPEN Tablet stylus&quot; area -238 89 31663 25027&#39; &gt;&gt; ~/.config/Pentablet/Default/xsetwacom.sh
+</code></pre></li>
+<li><p>fermer l&#39;application Pentablet</p></li>
+</ul>
+
+<p><strong>Si vous êtes dans les mêmes conditions matériels</strong>, lorsque vous relancerez l&#39;application, vous retrouverez votre configuration automatiquement.</p>
+</body></html>

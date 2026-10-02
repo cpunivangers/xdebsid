@@ -1,0 +1,22 @@
+---
+
+- name: firefox | Copy profile mozilla mozilla.tar.gz
+  copy:
+    src: modeles.tar.gz
+    dest: /tmp
+  
+- name: Modèles | untar modeles.tar.gz
+  unarchive:
+    src: /tmp/modeles.tar.gz
+    dest: ~/
+    remote_src: yes
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+
+   
+- name: firefox | untar modeles.tar.gz skel
+  unarchive:
+    src: /tmp/modeles.tar.gz
+    dest: /etc/skel/
+    owner: root
+    group: root
+    remote_src: yes

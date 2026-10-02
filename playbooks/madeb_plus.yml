@@ -1,0 +1,16 @@
+---
+
+# Compléments madeb Debian 13
+# 29/09/2025 christian.pottier@univ-angers.fr
+
+- hosts: all
+  become: true
+  tasks:
+
+  - import_tasks: tasks/freetube.yml
+
+  - import_tasks: tasks/rustdesk.yml
+
+  - import_tasks: tasks/spotify.yml
+  
+  - import_tasks: tasks/calibre.yml

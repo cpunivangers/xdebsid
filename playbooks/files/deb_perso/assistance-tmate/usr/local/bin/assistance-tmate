@@ -1,0 +1,34 @@
+#!/bin/sh
+ 
+# 07/10/2018
+# christian.pottier@univ-angers.fr
+#
+# Assistance avec tmate
+if ( apt-cache policy tmate | grep Installé | grep -q aucun ) ; then
+	sudo apt -y install tmate
+fi
+if ( apt-cache policy xclip | grep Installé | grep -q aucun ) ; then
+	sudo apt -y install xclip
+fi
+# Clé
+if [ ! -e ~/.ssh/id_rsa ] ; then
+	echo -e  'y\n'|ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''
+fi
+cd ~/
+
+tmate -S /tmp/tmate.sock new-session -d               # Launch tmate in a detached state
+tmate -S /tmp/tmate.sock wait tmate-ready             # Blocks until the SSH connection is established
+ADRESS_SSH=$(tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}')    # Prints the SSH connection string
+ADRESS_WEB=$(tmate -S /tmp/tmate.sock display -p '#{tmate_web}')    # Prints the SSH connection string
+echo "Envoyer les adresses des liens qui s'afficheent ci-dessous à votre assistant :"
+echo "$ADRESS_SSH"
+echo "$ADRESS_WEB"
+echo " "
+echo Ouvrez votre mesagerie et faire "Coller" dans le corps du message.
+echo "l'adresse doit apparaitre ..."
+echo ""
+echo "$ADRESS_SSH\n$ADRESS_WEB" | xclip -selection clipboard
+echo ""
+echo "Attention ! Ne pas fermer la fenêtre avant l'intervention !"
+sleep 50
+read tempo

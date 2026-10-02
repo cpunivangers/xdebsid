@@ -1,0 +1,17 @@
+---
+
+- name: grub
+  lineinfile:
+    path: /etc/default/grub
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+  - regexp: GRUB_TIMEOUT=
+    line: GRUB_TIMEOUT=1
+  - regexp: GRUB_CMDLINE_LINUX_DEFAULT=
+    line: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"    
+  register: result
+
+- name: Grub | update grub
+  command: update-grub
+  when: result.changed

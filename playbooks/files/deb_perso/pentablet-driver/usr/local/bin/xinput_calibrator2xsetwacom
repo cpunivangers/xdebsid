@@ -1,0 +1,25 @@
+#!/bin/bash
+ 
+# 12/06/2020
+# christian.pottier@univ-angers.fr
+#
+# xinput_calibrator to xsetwacom
+
+TABLET=$1
+if [ -z "$TABLET" ]; then
+	TABLET='XPPEN Tablet stylus'
+fi
+RESULT=/tmp/calibre.txt
+xinput_calibrator --device "$TABLET" > $RESULT
+
+MINX=$(grep "MinX" $RESULT | cut -d\" -f4)
+MINY=$(grep "MinY" $RESULT | cut -d\" -f4)
+MAXX=$(grep "MaxX" $RESULT | cut -d\" -f4)
+MAXY=$(grep "MaxY" $RESULT | cut -d\" -f4)
+
+CMD='xsetwacom set "'$TABLET'" area'" $MINX $MINY $MAXX $MAXY"
+
+echo "$CMD"
+
+ID_TABLET=$(xsetwacom list | grep "$TABLET" | cut -d: -f2 | awk '{print $1}')
+xsetwacom set $ID_TABLET area $MINX $MINY $MAXX $MAXY

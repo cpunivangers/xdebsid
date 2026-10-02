@@ -1,0 +1,11 @@
+---
+
+- name: test polices vista installées
+  stat:
+    path: /usr/share/fonts/truetype/vista
+  register: p
+
+- name: Installation police Vista
+  script: Divers/policeVista.sh
+  ignore_errors: true
+  when: p.stat.isdir is not defined

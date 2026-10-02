@@ -1,0 +1,10 @@
+Package: gyt-dl
+Version: 221024.1514
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash, yad, wget, xclip
+Conflicts: youtube-dl
+Replaces: youtube-dl
+Maintainer: Christian Pottier <christian.pottier@univ-angers.fr>
+Description: Youtube-dl

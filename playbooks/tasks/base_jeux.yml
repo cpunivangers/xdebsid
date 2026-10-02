@@ -1,0 +1,12 @@
+---
+
+- name: installation des paquets jeux de base
+  apt:
+    state: present
+    name:
+    - gnome-games
+    - aisleriot
+    #~ - gbrainy # absent deb13
+    - ltris
+    - flobopuyo
+  tags: jeux

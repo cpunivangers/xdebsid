@@ -1,0 +1,52 @@
+---
+
+- name: Bureautique | LibreOffice
+  apt:
+    state: latest
+    name:
+    - libreoffice
+    - libreoffice-gtk3
+    - libreoffice-gnome
+    - libreoffice-l10n-fr
+    - libreoffice-help-fr
+    - libreoffice-style-*
+    - libreoffice-report-builder
+    - hyphen-fr
+    #default_release: '{{ ansible_facts["distribution_release"] }}-backports'
+
+- name: Bureautique | Polices
+  apt:
+    state: present
+    name:
+    - ttf-mscorefonts-installer
+    - fonts-liberation
+    - fonts-crosextra-carlito
+    - fonts-crosextra-caladea
+    - fonts-linex
+# completer avec les polices windows >= vista
+    - gnome-font-viewer
+
+- name: Bureautique | Pdf
+  apt:
+    state: present
+    name:
+    - evince
+    - pdfsam
+    - pdfarranger
+    - bookletimposer
+    - pdf-presenter-console
+
+
+- import_tasks: markdown.yml
+
+- import_tasks: policevista.yml
+
+- import_tasks: grammalecte.yml
+
+- import_tasks: modeles.yml
+
+- import_tasks: xournalpp.yml
+
+#2026 devient payant#- import_tasks: languagetool.yml
+
+- import_tasks: libreoffice_config.yml

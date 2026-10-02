@@ -1,0 +1,26 @@
+---
+
+- name: xdg-user-dirs-update {{ ansible_facts.env.SUDO_USER }}
+  shell: xdg-user-dirs-update
+  ignore_errors: true
+  changed_when: False
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+
+- name: xdg-user-dirs-gtk-update {{ ansible_facts.env.SUDO_USER }} | bookmarks
+  shell: xdg-user-dirs-gtk-update
+  ignore_errors: true
+  changed_when: False
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+
+- name: Dossiers_Distants | bookmarks {{ ansible_facts.env.SUDO_USER }}
+  lineinfile:
+    path: /home/{{ ansible_facts.env.SUDO_USER }}/.config/gtk-3.0/bookmarks
+    regexp: '^{{ item }}'
+    line: '{{ item }}'
+    create: yes
+    owner: '{{ ansible_facts.env.SUDO_USER }}'
+    group: '{{ ansible_facts.env.SUDO_USER }}'
+  with_items:
+    - file:///home/{{ ansible_facts.env.SUDO_USER }}/Dossiers_Distants Dossiers_Distants
+
+- import_tasks: xdg-user-dirs_users.yml

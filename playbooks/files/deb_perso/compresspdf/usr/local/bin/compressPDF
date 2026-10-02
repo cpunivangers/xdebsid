@@ -1,0 +1,52 @@
+#!/bin/bash
+# Script pour compresser un document PDF
+# /!\ Doit être autorisé à s'éxécuter comme programme
+# /!\ Dépendance : ghostscript (gs), normalement déjà installé sur votre distribution.
+#
+# Auteur initial : Jonathan Chibois - jo.chibois [at] gmail.com
+# Version : 0.1
+# Licence : GNU/GPL
+#
+# Christian.pottier@univ-angers.fr
+# Version : 0.1
+# 10/04/2013 modifications pour debian7 et ajout saisie fichier
+
+#La variable 'COMPRESS_LEVEL' est le résultat du choix de l'utilisateur
+COMPRESS_LEVEL=$(zenity --list --radiolist --title="Niveau de compression" --column="" --column="Niveau" --column="Commentaire" \
+false screen "Compression forte, qualité faible. Destine le document à une lecture basique sur écran uniquement" \
+true ebook "Compression forte, qualité moyenne. Réglage optimisé pour une lecture électronique confortable. Très bon compromis" \
+false printer "Compression moyenne, qualité moyenne. Le document reste de bonne qualité en cas d’impression papier." \
+false prepress "Compression faible, qualité haute. A utiliser en cas d’impression professionnelle prévue.")
+
+if [ -z $COMPRESS_LEVEL ]; then
+	exit
+fi
+
+LIST_FICHIERS="$*"
+if [ -z $LIST_FICHIERS ]; then
+	LIST_FICHIERS=`zenity --file-selection --title="Sélectionnez un fichier"`
+fi
+
+#Pour chaque fichier sélectionné (appelé alors 'arg'), on applique la compression
+for arg in "$LIST_FICHIERS"
+do
+	#Le chemin du fichier devient la variable 'CHEMIN'
+	CHEMIN=$(dirname "$arg");
+	#Le nom du fichier (sans extension) devient la variable 'NOM_FICHIER'
+	FICHIER=$(basename "$arg"); #On récupère d'abord le nom du fichier avec son extension
+	NOM_FICHIER=${FICHIER%.*}; #On lui enlève ensuite l'extension
+	EXT_FICHIER=${FICHIER##*.}; #On récupère l'extension
+	case "$EXT_FICHIER" in
+		pdf | PDF ) ;;
+		* ) continue ;;
+	esac
+
+
+	#On exécute la commande de compression, avec les paramètres qui vont bien :
+	# - le niveau de compression voulu
+	# - le fichier de sortie qui sera dans le dossier source, avec un nom suffixé selon le niveau de compression
+	gs -q -dSAFER -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/$COMPRESS_LEVEL  -sOUTPUTFILE="$CHEMIN/$NOM_FICHIER ($COMPRESS_LEVEL).pdf" -f "$arg"
+	zenity --info --text="Compression effectuée : $NOM_FICHIER ($COMPRESS_LEVEL).pdf."
+done
+
+exit

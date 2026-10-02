@@ -1,0 +1,24 @@
+---
+
+- name: info
+  vars: 
+    msg: |
+      Ansible nodename: {{ ansible_facts['nodename'] }}
+      Ansible group_names: {{ group_names }}
+      Ansible os family: {{ ansible_facts['os_family'] }}
+      Ansible Distribution: {{ ansible_facts['distribution'] }}
+      Ansible Dist version: {{ ansible_facts['distribution_version'] }}
+      Ansible distribution_major_version: {{ ansible_facts['distribution_major_version'] }}
+      Ansible product_name: {{ ansible_facts['product_name'] }}
+      Ansible product_serial: {{ ansible_facts['product_serial'] }}
+      Ansible form_factor: {{ ansible_facts['form_factor'] }}
+      host mac: {{ mac }} / macaddress: {{ ansible_facts.default_ipv4.macaddress }}
+      interface: {{ ansible_default_ipv4.interface }}
+      host ip: {{ ansible_host }} / ip address: {{ ansible_facts.default_ipv4.address }}
+      broadcast: {{ ansible_facts.default_ipv4.broadcast }}
+      inventory_hostname: {{ inventory_hostname }}
+      Ansible ansible_user_id: {{ ansible_user_id }}
+  debug: 
+    msg: "{{ msg.split('\n') }}"       
+  tags: info
+      #~ Ansible facts: {{ ansible_facts }}

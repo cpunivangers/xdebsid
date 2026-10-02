@@ -1,0 +1,15 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=XP-Pen driver Profil
+Type=Application
+Exec=/usr/local/bin/Pentablet-Profil  %F
+Terminal=false
+Icon=XP-Pen_logo
+Comment=XP-Pen (Official) driver
+Categories=Settings;HardwareSettings;
+Hidden=false
+X-GNOME-Autostart-enabled=false
+GenericName=

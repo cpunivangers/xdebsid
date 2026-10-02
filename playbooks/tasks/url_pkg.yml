@@ -1,0 +1,30 @@
+---
+# Installation paquet deb à partir d'un url
+# pour récuperer les infos de la version candidate :
+#	Si non installée :
+#		wget -O xx.deb URL
+#		name: dpkg -f xx.deb Package
+#		vers: dpkg -f xx.deb Version
+
+
+#~ - name : Variables nom du paquet
+  #~ set_fact:
+    #~ pkg:
+      #~ name: nom du paquet
+      #~ url: URL de téléchargement
+      #~ vers: Version du paquet à installer
+
+#~ - import_tasks: url_pkg.yml
+
+- name: Version installé {{ pkg.name }}
+  shell: dpkg -s {{ pkg.name }} | grep Version | cut -d" " -f2
+  register: vers_pkg
+  changed_when: False
+
+- name: Installé {{ vers_pkg.stdout }} Candidat {{ pkg.url }} {{ pkg.vers }}
+  ignore_errors: true
+  apt:
+    deb: '{{ pkg.url }}'
+    
+  when:
+    - vers_pkg.stdout == "" or pkg.vers is version(vers_pkg.stdout,'>')    

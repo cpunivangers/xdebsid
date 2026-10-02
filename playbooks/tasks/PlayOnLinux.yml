@@ -1,0 +1,68 @@
+---
+
+- name: Playonlinux | test arch i386
+  shell: dpkg --print-foreign-architectures | grep i386
+  register: result_i386_check
+  changed_when: result_i386_check.rc == 1
+  failed_when: result_i386_check.rc > 1
+
+- name: Playonlinux | add arch i386
+  command: dpkg --add-architecture i386
+  when: result_i386_check.rc == 1
+
+## Depot winhq non validé !
+#~ - name: Playonlinux | depot wineHQ
+  #~ deb822_repository:
+    #~ name: winehq
+    #~ types: deb
+    #~ uris: https://dl.winehq.org/wine-builds/debian
+    #~ suites: '{{ ansible_distribution_release }}'
+    #~ components: main
+    #~ architectures: amd64
+    #~ signed_by: https://dl.winehq.org/wine-builds/winehq.key
+    #~ enabled: true
+
+#~ - name: Playonlinux | install winehq-stable
+  #~ apt:
+    #~ name: winehq-stable
+    #~ state: latest
+    #~ update_cache: yes
+     
+- name: Playonlinux | Install
+  apt:
+    name:
+      - playonlinux
+      - wine
+      # - wine32
+      - wine64
+      - libwine
+      # - libwine:i386
+      - fonts-wine
+
+- name: Playonlinux | group wine
+  group:
+    name: wine
+    state: present
+
+- name: Playonlinux | add to group wine
+  user:
+    name: '{{ ansible_facts.env.SUDO_USER }}'
+    groups: wine
+    append: yes
+
+- name: Playonlinux | application wine
+  copy:
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Name=Wine Windows Program Loader
+      Name[fr]=Wine - Chargeur de programmes Windows
+      Exec=wine start /unix %f
+      MimeType=application/x-ms-dos-executable;application/x-msi;application/x-ms-shortcut;
+      Icon=/usr/share/playonlinux/resources/images/install/wine.png
+      NoDisplay=true
+      StartupNotify=true
+
+    dest: /usr/share/applications/wine.desktop
+    mode: 0755
+

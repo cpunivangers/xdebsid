@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=xfce4-session-logout
+Icon=system-shutdown
+StartupNotify=false
+Terminal=false
+Categories=System;X-XFCE;X-Xfce-Toplevel;
+OnlyShowIn=XFCE;
+Name=Log Out
+Name[fr]=Déconnexion
+Comment=Log out of the Xfce Desktop
+Comment[fr]=Fermer la session du bureau Xfce
+X-XFCE-Source=file:///usr/share/applications/xfce4-session-logout.desktop
+Path=

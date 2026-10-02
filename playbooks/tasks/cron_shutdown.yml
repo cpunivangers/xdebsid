@@ -1,0 +1,6 @@
+---
+
+- name: Arrêt de la machine à 20h30
+  copy:
+    src: cron.d/shutdown
+    dest: /etc/cron.d/

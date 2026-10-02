@@ -1,0 +1,68 @@
+---
+
+# Extension LibreOffice
+
+- name: languagetool oxt | Version candidat
+  shell: |
+    curl -sL 'https://languagetool.org/download/README.md' | dos2unix | grep 'Version' | cut -d" " -f2
+
+  register: vers_dispo
+  changed_when: false
+
+#~ - name: languagetool oxt | Version installée
+  #~ shell: |
+    #~ OLDVERSION=$(unopkg list --shared 2>/dev/null | grep "languagetool.oxt" -A2 | grep "Version" | cut -d: -f2 | cut -d" " -f2)
+    #~ if [ -z "$OLDVERSION" ]; then OLDVERSION="0.0" ; fi
+    #~ echo $OLDVERSION
+
+  #~ register: vers_inst
+  #~ changed_when: false
+
+#~ - name: languagetool oxt | Versions installé {{ vers_inst.stdout }} candidat {{ vers_dispo.stdout }} 
+  #~ shell: |
+    #~ # Installation extension libreoffice
+    #~ wget -O /tmp/LanguageTool.oxt https://languagetool.org/download/LanguageTool-stable.oxt 2>/dev/null
+    #~ unopkg add --force --shared /tmp/LanguageTool.oxt --log-file loglibo.txt 2>/dev/null
+    
+  #~ ignore_errors: True
+  #~ become: yes
+  #~ when:
+    #~ - vers_dispo.stdout is version(vers_inst.stdout,'>')
+
+# Cela ralenti beaucoup l'ouverture des fichiers! Si c'est génant.
+#	sudo unopkg list --shared
+#	sudo unopkg remove --force --shared org.openoffice.languagetool.oxt
+
+# Extension Firefox
+
+- name: languagetool xpi | Version candidat
+  shell: |
+    HREF=$(curl -sL "https://addons.mozilla.org/fr/firefox/addon/languagetool/" | dos2unix | hxnormalize | grep "https://addons.mozilla.org/firefox/downloads/file/.*/languagetool-.*.xpi" | sed -r 's|.*"(.*)".*|\1|')
+    VERSION=$(basename $HREF .xpi | cut -d- -f2)
+    echo $VERSION
+
+  register: vers_dispo
+  changed_when: false
+
+- name: languagetool xpi | Version installée
+  shell: |
+    OLDVERSION=$(grep '"version": "' /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/languagetool-webextension@languagetool.org/manifest.json | sed -r 's|.*"(.*)".*|\1|')
+    if [ -z "$OLDVERSION" ]; then OLDVERSION="0.0" ; fi
+    echo $OLDVERSION
+
+  register: vers_inst
+  changed_when: false
+
+- name: languagetool xpi | Versions installé {{ vers_inst.stdout }} candidat {{ vers_dispo.stdout }} 
+  shell: |
+    # Installation extension Firefox
+    HREF=$(curl -sL "https://addons.mozilla.org/fr/firefox/addon/languagetool/" | dos2unix | hxnormalize | grep "https://addons.mozilla.org/firefox/downloads/file/.*/languagetool-.*.xpi" | sed -r 's|.*"(.*)".*|\1|')
+    wget -O /tmp/LanguageTool.xpi $HREF 2>/dev/null
+    addon_id=$(unzip -p /tmp/LanguageTool.xpi "manifest.json" | grep '"id": "' | sed -r 's|.*"(.*)".*|\1|')
+    mkdir -p /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+    unzip -q -o /tmp/LanguageTool.xpi -d /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/$addon_id 2>/dev/null
+    
+  ignore_errors: True
+  become: yes
+  when:
+    - vers_dispo.stdout is version(vers_inst.stdout,'>')

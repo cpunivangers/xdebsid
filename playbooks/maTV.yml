@@ -1,0 +1,50 @@
+---
+
+# maTV
+# 26/09/2026 chrisinfo@etik.com
+# ansible-playbook -i hosts_bonjour/hosts madeb13/playbooks/maTV.yml -l "gigaTV"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - import_tasks: tasks/base_depots.yml
+
+  - import_tasks: tasks/upgrade.yml
+  
+  - import_tasks: tasks/base_outil.yml
+  
+  - name: debclean
+    lineinfile:
+      dest: /home/{{ ansible_facts.env.SUDO_USER }}/.bash_aliases
+      create: yes
+      mode: 0644
+      line: 'alias debclean="sudo apt clean && sudo apt autoclean && sudo apt -y autoremove"'
+      regexp: "^alias debclean="
+
+  - name: Acessoires | clipman
+    apt:
+      state: latest
+      name:           
+      - clipman
+
+  - import_tasks: tasks/base_internet.yml
+
+  - import_tasks: tasks/base_sonvideo.yml
+  
+  - import_tasks: tasks/conf_base.yml
+
+  - import_tasks: tasks/xfce.yml
+
+  - import_tasks: tasks/autologin_lightdm.yml
+ 
+  - name: xfce | xfce4-power-manager '{{ ansible_facts.env.SUDO_USER }}'
+    shell: 'xvfb-run -a xfconf-query -v -n -c {{ item }}'
+    become_user: '{{ ansible_facts.env.SUDO_USER }}'
+    with_items:
+      - xfce4-power-manager -p /xfce4-power-manager/dpms-enabled -t 'bool' -s false 
+
+  - name: /opt/maTV
+    copy:
+      src: maTV
+      dest: /opt/

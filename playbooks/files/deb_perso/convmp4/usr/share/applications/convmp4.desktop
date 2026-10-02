@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Categories=AudioVideo;
+Exec='/usr/local/bin/convmp4.sh' %f
+Icon=convmp4.png
+Name=convmp4
+Comment=Conversion vidéo en mp4
+#NoDisplay=true
+MimeType=video/mpeg;video/mpg;video/mov;

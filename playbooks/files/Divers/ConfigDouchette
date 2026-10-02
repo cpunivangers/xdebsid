@@ -1,0 +1,3 @@
+#!/bin/bash
+id=$(xinput list --id-only 'BARCODE SCANNER BARCODE SCANNER')
+setxkbmap -device $id us

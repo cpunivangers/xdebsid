@@ -1,0 +1,26 @@
+---
+
+- name: libreoffice | /etc/skel/.config/libreoffice/4/user
+  file:
+    path: /etc/skel/.config/libreoffice/4/user
+    state: directory
+    
+- name: libreoffice | config skel
+  copy:
+    src: libreoffice/registrymodifications.xcu
+    dest: /etc/skel/.config/libreoffice/4/user
+
+- name: libreoffice | /home/{{ ansible_facts.env.SUDO_USER }}/.config/libreoffice/4/user
+  file:
+    path: /home/{{ ansible_facts.env.SUDO_USER }}/.config/libreoffice/4/user
+    state: directory
+    owner: '{{ ansible_facts.env.SUDO_USER }}'
+    group: '{{ ansible_facts.env.SUDO_USER }}'
+
+- name: libreoffice | config  {{ ansible_facts.env.SUDO_USER }}
+  copy:
+    src: libreoffice/registrymodifications.xcu
+    dest: /home/{{ ansible_facts.env.SUDO_USER }}/.config/libreoffice/4/user
+    force: false
+    owner: '{{ ansible_facts.env.SUDO_USER }}'
+    group: '{{ ansible_facts.env.SUDO_USER }}'

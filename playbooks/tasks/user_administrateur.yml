@@ -1,0 +1,10 @@
+---
+
+- name: Utilisateur administrateur ?
+  shell: id -n -u 1000
+  register: return_shell
+  changed_when: False
+
+- name: user_administrateur {{ return_shell.stdout_lines }}
+  set_fact:
+    user_administrateur: '{{ return_shell.stdout_lines }}'

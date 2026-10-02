@@ -1,0 +1,22 @@
+# 05/04/2019 christian.pottier@univ-angers.fr
+# variable mac dans le fichier hosts
+- hosts: all
+  gather_facts: no
+  serial: 10
+  tasks:
+  
+  - debug: msg=" {{ ansible_host }} {{ mac }} "
+
+  - wakeonlan:
+      mac: '{{ mac }}'
+      #~ broadcast: "{{ ansible_host.split('.')[0] }}.{{ ansible_host.split('.')[1] }}.255.255"
+    delegate_to: localhost
+    changed_when: False
+
+- hosts: all
+  gather_facts: no
+
+  tasks:
+  - name: Attendre service online
+    wait_for_connection:
+      timeout: 20

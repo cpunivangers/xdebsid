@@ -1,0 +1,11 @@
+---
+
+- hosts: deb
+  gather_facts: no
+  become: true
+  
+  tasks:
+
+  - name: shutdown
+    command: /bin/systemctl poweroff
+    ignore_errors: true

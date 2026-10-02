@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# 24/10/2022 remplacement youtube-dl par yt-dlp
+
+if [ -f "/usr/local/bin/youtube-dl" ]; then
+	rm -rf /usr/local/bin/youtube-dl
+fi
+
+sudo ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
+
+exit 0

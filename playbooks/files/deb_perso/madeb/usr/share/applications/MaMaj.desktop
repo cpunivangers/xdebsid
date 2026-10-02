@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - MaMaj
+Comment=Maj de votre système + maj des ajouts...
+Exec=MaMaj
+Icon=software-update-available
+Path=
+Terminal=true
+StartupNotify=false
+Categories=madeb;

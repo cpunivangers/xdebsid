@@ -1,0 +1,136 @@
+#!/bin/bash
+
+# 05/2021
+# Christian.pottier@univ-angers.fr
+#
+# création des unit systemd pour l'automontage des partages réseaux de l'utilisateur
+# Nettoyage des units :
+#	sudo rm /etc/systemd/system/home-xxx-*
+#	sudo rm /etc/systemd/system/multi-user.target.wants/home-xxx-*
+#	sudo rm -rf /home/xxx/.config/user-mount
+#
+set -xv
+
+CONFIG_SYNTAX="^\s*#|^\s*$|^[a-zA-Z_]+='[^']*'$"
+
+export USER_LOCAL="$1"
+
+if [ -z "$USER_LOCAL" ]; then
+	USER_LOCAL="$SUDO_USER"
+fi
+
+if [ ! -e /home/$USER_LOCAL/.config/user-mount ] ; then
+	exit
+fi
+
+for ishare in /home/$USER_LOCAL/.config/user-mount/*
+do
+	# Controle fichier de config
+	CONFIG_PATH="$ishare"
+	# commented lines, empty lines und lines of the from choose_ANYNAME='any.:Value' are valid
+	# check if the file contains something we don't want
+	if egrep -q -v "${CONFIG_SYNTAX}" "$CONFIG_PATH"; then
+		echo "Erreur config file ${CONFIG_PATH}." >&2
+		echo "The following lines in the configfile do not fit the syntax:" >&2
+		egrep -vn "${CONFIG_SYNTAX}" "$CONFIG_PATH"
+		continue
+	fi
+
+	export username=""
+	export NAME_SHARE=${ishare##*/}
+	export PATH_SHARE=""
+	export PATH_MOUNT=""
+	export PATH_CRED=""
+	export NAME_SERVER=""
+	PATH_TEMPLATE=/etc/user-mount/template_user
+
+	# Config partage
+	source <(grep = $ishare)
+
+	# Partage ?
+	if [ -z "$PATH_SHARE" ]; then
+		continue
+	fi
+	# unit déjà existante ?
+	if [ -z "$PATH_MOUNT" ]; then
+		PATH_MOUNT=/home/${USER_LOCAL}/${NAME_SHARE}
+	fi
+	FILE_UNIT=$(systemd-escape $(realpath --relative-to=/ $PATH_MOUNT))
+	# Unmount unit ?
+	echo "Test unit systemd ${FILE_UNIT}.mount ..."
+	COMMAND="systemctl is-active ${FILE_UNIT}.mount 2>/dev/null"
+	if [ "$(eval $COMMAND)" = "active" ]; then
+		echo "Stop unit ${FILE_UNIT}.automount ..."
+		systemctl stop ${FILE_UNIT}.automount
+	fi
+	if [ -f /etc/systemd/system/multi-user.target.wants/$FILE_UNIT ]; then
+		continue
+	fi
+	# Templates existent ?
+	if [ ! -f ${PATH_TEMPLATE}.mount ]; then
+		continue
+	fi
+	if [ ! -f ${PATH_TEMPLATE}.automount ]; then
+		continue
+	fi
+	NAME_SERVER=$(echo $PATH_SHARE | cut -d/ -f3)
+	if [ -z "$PATH_CRED" ]; then
+		PATH_CRED="/home/${USER_LOCAL}/.config/.cred_${NAME_SERVER}"
+		if [ ! -f $PATH_CRED ]; then
+			PATH_CRED="/tmp/.cred_${USER_LOCAL}_${NAME_SERVER}"
+		fi
+	fi
+	if [ -f $PATH_CRED ]; then
+	        source <(grep "username=" $PATH_CRED)
+	fi
+	# Credential existe ?
+	if [ -z "$username" ]; then
+		continue
+	fi
+	echo $ishare
+	echo $PATH_CRED
+	echo $USER_LOCAL $NAME_SERVER $username
+
+	#~ # Point de montage ?
+	#~ if [ ! -e /$PATH_MOUNT ]; then
+		#~ echo "Création point de montage $PATH_MOUNT ..."
+		#~ mkdir -p /$PATH_MOUNT
+	#~ fi
+	echo "Création unit systemd ${FILE_UNIT}.mount ..."
+	envsubst < ${PATH_TEMPLATE}.mount > /etc/systemd/system/${FILE_UNIT}.mount
+
+	echo "Test unit systemd ${FILE_UNIT}.mount ..."
+	# Mise à jour
+	systemctl daemon-reload
+	echo "Activation unit systemd ${FILE_UNIT}.mount ..."
+	systemctl enable ${FILE_UNIT}.mount
+	echo "Start unit systemd ${FILE_UNIT}.mount ..."
+	systemctl start ${FILE_UNIT}.mount	
+	systemctl disable ${FILE_UNIT}.mount
+	sleep 1
+	COMMAND="systemctl is-active ${FILE_UNIT}.mount 2>/dev/null"	
+	if [ "$(eval $COMMAND)" = "failed" ]; then
+		echo "Montage impossible : Supression ${FILE_UNIT}.mount"
+		systemctl disable ${FILE_UNIT}.mount
+		rm /etc/systemd/system/${FILE_UNIT}.mount
+		systemctl daemon-reload
+		rmdir /$PATH_MOUNT
+		continue
+	fi
+	echo "Arrête ${FILE_UNIT}.mount ..."
+	systemctl stop ${FILE_UNIT}.mount
+	systemctl disable ${FILE_UNIT}.mount
+	
+	echo "Création unit systemd ${FILE_UNIT}.automount ..." 
+	envsubst < ${PATH_TEMPLATE}.automount > /etc/systemd/system/${FILE_UNIT}.automount
+	# Mise à jour
+	systemctl daemon-reload
+	# = ajoute dans /etc/systemd/system/multi-user.target.wants/
+	sleep 5
+	echo "Activation unit systemd ${FILE_UNIT}.automount ..."
+	systemctl enable ${FILE_UNIT}.automount
+	sleep 5
+	echo "Start unit systemd ${FILE_UNIT}.automount ..."
+	systemctl start ${FILE_UNIT}.automount
+done
+exit 0

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+NoDisplay=true
+Exec=flashplayer %f
+Name=flashplayer
+Comment=Définition personnalisée pour flashplayer
+MimeType=application/vnd.adobe.flash.movie;application/x-shockwave-flash;
+

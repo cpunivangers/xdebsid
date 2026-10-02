@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - Mon Assistance
+Comment=Assistance directe chris.pottier@free.fr
+Exec=monassistance
+Icon=help-browser
+Path=
+Terminal=true
+StartupNotify=false
+Categories=madeb;
+

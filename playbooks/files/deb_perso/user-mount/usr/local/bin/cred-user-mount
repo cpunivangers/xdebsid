@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# 12/2021
+# Christian.pottier@univ-angers.fr
+#
+# création crédential pour user-mount automontage des partages réseaux de l'utilisateur
+
+read password
+
+if [ $(id -u $PAM_USER) -lt 1000 ] ; then
+   exit 0
+fi
+
+if [ ! -e /home/$PAM_USER/.config/user-mount ] ; then
+	exit 0
+fi
+
+# Serveur
+NAME_SERVER=$(grep "^PATH_SHARE=" /etc/skel/.config/user-mount/* | head -1 | cut -d\' -f2 | cut -d/ -f3)
+# Domaine
+DOMAIN_SERVER=$(grep "^DOMAIN_SERVER=" /etc/skel/.config/user-mount/* | head -1 | cut -d\' -f2)
+
+# Ecriture credentials
+PATH_CRED="/tmp/.cred_${PAM_USER}_${NAME_SERVER}"
+exec &> $PATH_CRED
+echo username=$PAM_USER
+echo password=$password
+echo domain=$DOMAIN_SERVER
+
+chmod 400 $PATH_CRED
+
+exit 0

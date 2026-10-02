@@ -1,0 +1,19 @@
+---
+
+# installation scripts madeb
+
+- name: /opt/madeb
+  copy:
+    src: madeb
+    dest: /opt/
+
+- name: /usr/local/bin/debclean
+  copy:
+    content: |
+      #!/bin/sh
+      
+      cd /opt/madeb/
+      sh debclean.sh
+      
+    dest: /usr/local/bin/debclean
+    mode: 0755

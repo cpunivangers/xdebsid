@@ -1,0 +1,19 @@
+---
+
+- name: /etc/apt/sources.list.d/debian.sources
+  copy:
+    content: |
+      Types: deb
+      URIs: http://deb.debian.org/debian/
+      Suites: sid
+      Components: main contrib non-free non-free-firmware
+      Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+    dest: /etc/apt/sources.list.d/debian.sources
+    mode: 0644
+
+- name: suppression /etc/apt/sources.list
+  ansible.builtin.file:
+    path: /etc/apt/sources.list
+    state: absent
+

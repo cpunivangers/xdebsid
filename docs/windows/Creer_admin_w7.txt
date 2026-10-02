@@ -1,0 +1,7 @@
+Créer sur n'importe quel Windows 7 un compte administrateur depuis un live CD de Linux.
+
+    booter sur livecd de Linux
+    dans Windows/sytem32 modifier le fichier utilman.exe qui correspond à l'aide sur l'écran d'accueil de Windows et copier à la place le fichier cmd.exe
+    à l'accueil de Windows, cliquer sur l'aide et c'est une commande qui se lance. net user nomduuser motdepasse /add et net localgroup Administrateurs nomduuser /add
+    démarrer sous Windows avec le nouveau profil et décontaminer la machine proprement.
+

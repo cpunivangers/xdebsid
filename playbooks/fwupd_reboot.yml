@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  gather_facts: no
+  become: true
+
+  tasks:
+
+  - name: Mise à jour Bios Micrologiciels (firmware)
+    shell: |
+      fwupdmgr refresh
+      fwupdmgr update 
+
+  - name: Reboot
+    reboot:

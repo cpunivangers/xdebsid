@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Steve Zazeski
+# Compression e-pub
+# dependence webp
+
+fepub=$1
+
+echo compressing $fepub with webp...
+
+rm -rf ./epub #delete the folder if it already exists
+unzip "$fepub" -d epub
+
+# find all images
+shopt -s globstar
+for i in **/*.{png,jpg,jpeg}; do
+    cwebp -short "${i}" -o "${i}"
+done
+
+# zip epub
+cd epub
+zip -0 -X "../compress.epub" mimetype
+zip -rDX9 "../compress.epub" ./* -x mimetype
+
+cd ..
+
+rm -rf ./epub # remove work directory
+
+# move the compressed one and rename the other to original
+mv "$fepub" "$fepub.original"
+mv compress.epub "$fepub"
+
+echo '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
+du -h "$fepub.original"
+du -h "$fepub"
+echo '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'

@@ -1,0 +1,30 @@
+---
+
+- name: rustdesk | url github
+  shell: |
+    # Dépot Github
+    repoGit="rustdesk/rustdesk"
+    latest="https://github.com/$repoGit/releases/latest"
+    VERSION=$(basename $(curl -sI "$latest" | grep -i "location" | dos2unix | cut -d" " -f2))
+    nameExeGit=rustdesk-$VERSION-x86_64.deb
+    echo "$latest/download/$nameExeGit"
+
+  register: retour_href
+  changed_when: false
+
+- name: rustdesk | Version dispo {{ retour_href.stdout }}
+  shell: basename '{{ retour_href.stdout }}' | cut -d- -f2
+  #~ args:
+    #~ warn: false
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+  register: retour_vers
+  changed_when: false
+
+- name : rustdesk | Version {{ retour_vers.stdout }}
+  set_fact:
+    pkg:
+      name: rustdesk
+      url: '{{ retour_href.stdout }}'
+      vers: '{{ retour_vers.stdout }}'
+
+- import_tasks: url_pkg.yml

@@ -1,0 +1,74 @@
+#!/bin/bash
+ 
+# 09/06/2020
+# christian.pottier@univ-angers.fr
+#
+# Profils Pentablet
+
+PROFIL=$1
+
+if [ -z "$PROFIL" ]; then
+	PROFIL="Default"
+fi
+
+# Dossier de profils
+REP_PROFIL=$HOME/.config/Pentablet
+if [ ! -d $REP_PROFIL ] ; then
+	mkdir -p $REP_PROFIL
+fi
+# Profil Default
+if [ ! -d $REP_PROFIL/Default ] ; then
+	mkdir -p $REP_PROFIL/Default
+	cp /opt/Pentablet-Driver/config.xml $REP_PROFIL/Default/
+
+	# Script de configuration :
+	# mappage de l'écran :
+	#	xrandr pour repérer l'écran de la tablet
+	#	Exemple avec le 2ème display port :
+	#		xinput --map-to-output 'XPPEN Tablet stylus' DP-2
+	#	echo "xinput --map-to-output 'XPPEN Tablet stylus' DP-2" > ~/.config/Pentablet/Default/xsetwacom.sh
+	# pour la calibration :
+	#	Lancer la calibration 	
+	#	xinput_calibrator --device "XPPEN Tablet stylus"
+	#	pour xsetxacom area = MinX MinY MaxX MaxY
+	#	echo 'xsetwacom set "XPPEN Tablet stylus" area -238 89 31663 25027' >> ~/.config/Pentablet/Default/xsetwacom.sh
+fi
+
+# Test utilisation en-cours
+if ( xsetwacom list | grep -q "XPPEN Tablet stylus" ) ; then
+	notify-send "IMPOSSIBLE ! Tablet en-cours d'utilisation ... "
+	exit 1
+fi
+
+# test Profil existant
+if [ ! -d $REP_PROFIL/$PROFIL ] ; then
+		cp -r $REP_PROFIL/Default $REP_PROFIL/$PROFIL
+fi
+
+## Lancement du driver avec le profil
+
+# Copie de la config
+cp -f $REP_PROFIL/$PROFIL/config.xml /opt/Pentablet-Driver/config.xml
+
+# Attendre Tablet active puis minimize la fenêtre et configure
+(	until $(xsetwacom list | grep -q "XPPEN Tablet stylus")
+	do
+		sleep 1s
+	done
+	xdotool windowminimize $(xdotool getactivewindow)
+	# Configuration xsetwacom si necéssaire
+	if [ -f /$REP_PROFIL/$PROFIL/xsetwacom.sh ] ; then
+		notify-send "Configuration Tablet xsetwacom ... "
+		bash $REP_PROFIL/$PROFIL/xsetwacom.sh
+	fi
+) &
+
+# Lancement du driver
+sudo /opt/Pentablet-Driver/Pentablet_Driver.sh
+
+# Sauvegarde config Profil
+cp -f /opt/Pentablet-Driver/config.xml $REP_PROFIL/$PROFIL/
+
+notify-send "Profil $PROFIL sauvegardé ..."
+
+exit 0

@@ -1,0 +1,9 @@
+---
+
+# Ajout date heure à l'historique du bash
+- name: Historique bash
+  lineinfile:
+    path: ~/.bashrc
+    regexp: '^export HISTTIMEFORMAT='
+    line: 'export HISTTIMEFORMAT="%y%m%d %T :"'
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'

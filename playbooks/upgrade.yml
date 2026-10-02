@@ -1,0 +1,10 @@
+---
+
+- name: wakeonline
+  import_playbook: wakeonlan.yml
+
+- hosts: deb
+  gather_facts: no
+  become: true
+  tasks:
+  - import_tasks: tasks/upgrade.yml

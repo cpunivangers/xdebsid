@@ -1,0 +1,14 @@
+---
+
+# Selection d'une tache
+
+- hosts: all
+  become: true
+
+  tasks:
+
+    - block:
+
+      - import_tasks: tasks/{{ id_task }}.yml
+
+      when: id_task != ""

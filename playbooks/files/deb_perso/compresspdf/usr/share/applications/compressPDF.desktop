@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Categories=Office;
+Exec='/usr/local/bin/compressPDF' %f
+Icon=compressPDF.png
+Name=compressPDF
+Comment=Compression PDF
+#NoDisplay=true
+MimeType=application/pdf;

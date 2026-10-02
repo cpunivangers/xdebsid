@@ -1,0 +1,27 @@
+---
+
+# Debian 11 vmdeb pour TP
+# 16/03/2022 Christian.pottier@univ-angers.fr
+
+- hosts: all
+  become: true
+  tasks:
+
+  - import_tasks: tasks/base_depots.yml
+
+  - import_tasks: tasks/upgrade.yml
+  
+  - import_tasks: tasks/base_outil.yml
+
+  - import_tasks: tasks/xfce.yml
+
+  - import_tasks: tasks/conf_grub.yml
+
+  - name: Install | Packages geany, geany-plugin*
+    apt:
+      name:
+        - geany
+        - geany-plugin*
+        - ghostwriter
+        - pandoc
+

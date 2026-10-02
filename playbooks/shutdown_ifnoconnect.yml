@@ -1,0 +1,16 @@
+---
+- name: Arrêt si aucun utilisateur connecté
+  hosts: deb
+  become: yes
+  tasks:
+    - name: nb utilisateurs connectés
+      shell: who | wc -l
+      register: user_count
+      changed_when: False
+      ignore_errors: true
+      failed_when: False
+      
+    - name: shutdown
+      community.general.shutdown:
+      ignore_errors: true
+      when: user_count.stdout | int == 2

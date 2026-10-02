@@ -1,0 +1,22 @@
+---
+- name: Reboot si aucun utilisateur connecté
+  hosts: deb
+  become: yes
+  tasks:
+    - name: utilisateurs
+      command: who
+      register: who_output
+      changed_when: False
+      ignore_errors: true
+      failed_when: False
+
+    - name: utilisateurs connectés
+      debug:
+        msg: "Utilisateurs: {{ who_output.stdout_lines }}"
+      when: who_output.stdout_lines | length > 2
+
+    - name: Reboot si aucun utilisateur connecté
+      ansible.builtin.reboot:
+        msg: "Reboot par Ansible"
+        pre_reboot_delay: 0
+      when: who_output.stdout_lines | length == 2

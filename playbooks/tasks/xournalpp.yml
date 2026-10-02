@@ -1,0 +1,7 @@
+---
+
+- name: Bureautique | xournalpp
+  apt:
+    state: latest
+    name:
+    - xournalpp

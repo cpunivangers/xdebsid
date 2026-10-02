@@ -1,0 +1,8 @@
+Package: epuboptim
+Version: 250821.0848
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash, imagemagick, jpegoptim, optipng, zenity
+Maintainer: Christian Pottier <christian.pottier@univ-angers.fr>
+Description: Optimisation fichier epub

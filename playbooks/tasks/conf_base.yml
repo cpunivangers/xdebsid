@@ -1,0 +1,19 @@
+---
+
+- import_tasks: conf_lightdm.yml
+
+- name: mimeapps.list
+  script: Divers/mimeapps.list.sh
+  changed_when: False
+  tags: conf
+
+- name: NetworkManager désactive la randomisation des adresses MAC pour les clés USB Wifi
+  ini_file:
+    path: /etc/NetworkManager/NetworkManager.conf
+    section: device
+    option: wifi.scan-rand-mac-address
+    value: 'no'
+    no_extra_spaces: yes
+  tags: conf
+
+- import_tasks: conf_grub.yml

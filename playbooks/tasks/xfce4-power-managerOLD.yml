@@ -1,0 +1,29 @@
+---
+
+- name: xvfb
+  apt:
+    name: xvfb
+
+- name: xfce | xfce4-power-manager '{{ ansible_facts.env.SUDO_USER }}'
+  shell: 'xvfb-run -a xfconf-query -v -n -c {{ item }}'
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+  with_items:
+    - xfce4-session -p /shutdown/LockScreen -t 'bool' -s false
+    - xfce4-power-manager -p /xfce4-power-manager/logind-handle-lid-switch -t 'bool' -s false
+    - xfce4-power-manager -p /xfce4-power-manager/lock-screen-suspend-hibernate -t 'bool' -s false
+
+
+- name: xfce | gsettings set apps.light-locker '{{ ansible_facts.env.SUDO_USER }}'
+  shell: 'xvfb-run -a gsettings set apps.light-locker {{ item }}'
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+  with_items:
+    - lock-on-suspend false
+    - lock-after-screensaver 0
+# gsettings list-recursively apps.light-locker
+# dconf dump /apps/light-locker/
+
+- name: xfce | dconf '{{ ansible_facts.env.SUDO_USER }}' to skel
+  copy:
+    src: '/home/{{ ansible_facts.env.SUDO_USER }}/.config/dconf'
+    dest: /etc/skel/.config/
+    remote_src: yes

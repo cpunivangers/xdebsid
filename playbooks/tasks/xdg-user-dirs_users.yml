@@ -1,0 +1,65 @@
+---
+
+- name: bookmarks |  Listes des utilisateurs
+  shell: ls /home/*/.config/gtk-3.0/bookmarks | cut -d/ -f3
+  become_user: '{{ ansible_facts.env.SUDO_USER }}'
+  register: retour_shell
+  changed_when: false
+
+#~ - name: users
+  #~ debug:
+    #~ msg:
+      #~ - " {{ retour_shell.stdout_lines }}"
+    #~ verbosity: 1
+     
+# Vérification des bookmarks de base
+
+- name: bookmarks autres utilisateurs | Documents
+  lineinfile:
+    path: /home/{{ item }}/.config/gtk-3.0/bookmarks
+    regexp: '^file:///home/{{ item }}/Documents'
+    line: 'file:///home/{{ item }}/Documents'
+    create: yes
+  with_items: "{{ retour_shell.stdout_lines }}"
+
+- name: bookmarks autres utilisateurs | Musique
+  lineinfile:
+    path: /home/{{ item }}/.config/gtk-3.0/bookmarks
+    regexp: '^file:///home/{{ item }}/Musique'
+    line: 'file:///home/{{ item }}/Musique'
+    create: yes
+  with_items: "{{ retour_shell.stdout_lines }}"
+
+- name: bookmarks autres utilisateurs | Images
+  lineinfile:
+    path: /home/{{ item }}/.config/gtk-3.0/bookmarks
+    regexp: '^file:///home/{{ item }}/Images'
+    line: 'file:///home/{{ item }}/Images'
+    create: yes
+  with_items: "{{ retour_shell.stdout_lines }}"
+
+- name: bookmarks autres utilisateurs | Vidéos
+  lineinfile:
+    path: /home/{{ item }}/.config/gtk-3.0/bookmarks
+    regexp: '^file:///home/{{ item }}/Vid%C3%A9os'
+    line: 'file:///home/{{ item }}/Vid%C3%A9os'
+    create: yes
+  with_items: "{{ retour_shell.stdout_lines }}"
+
+- name: bookmarks autres utilisateurs | Téléchargements
+  lineinfile:
+    path: /home/{{ item }}/.config/gtk-3.0/bookmarks
+    regexp: '^file:///home/{{ item }}/T%C3%A9l%C3%A9chargements'
+    line: 'file:///home/{{ item }}/T%C3%A9l%C3%A9chargements'
+    create: yes
+  with_items: "{{ retour_shell.stdout_lines }}"
+  
+# Autres bookmarks     
+- name: bookmarks autres utilisateurs | Dossiers_Distants
+  lineinfile:
+    path: /home/{{ item }}/.config/gtk-3.0/bookmarks
+    regexp: '^file:///home/{{ item }}/Dossiers_Distants Dossiers_Distants'
+    line: 'file:///home/{{ item }}/Dossiers_Distants Dossiers_Distants'
+    create: yes
+  with_items: "{{ retour_shell.stdout_lines }}"
+  

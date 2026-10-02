@@ -1,0 +1,11 @@
+# Générer la clé sans pass phrase (non securisé)
+ssh-keygen -t rsa
+# distribué la clé
+ssh-copy-id utilisateur@172.20.xxx.xxx
+
+# distribué sur un serveur window
+scp $HOME/.ssh/id_rsa.pub administrateur@172.20.73.60:/Users/Administrateur
+ssh administrateur@172.20.73.60 "mkdir .ssh & type id_rsa.pub >> .ssh\authorized_keys"
+
+# Effacer une IP
+ssh-keygen -R 172.19.126.125

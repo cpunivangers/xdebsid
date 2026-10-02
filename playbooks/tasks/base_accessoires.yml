@@ -1,0 +1,60 @@
+---
+
+- name: Acessoires | Vérification hash
+  apt:
+    state: present
+    name:
+    - gtkhash
+    
+- name: Acessoires | Archivage
+  apt:
+    state: present
+    name:  
+    - 7zip
+    - 7zip-rar
+    - unrar
+    - engrampa
+      
+- name: Acessoires | Sauvegarde
+  apt:
+    state: present
+    name:          
+    - grsync
+    - deja-dup
+
+- name: Acessoires | Affichage multi-ecrans
+  apt:
+    state: present
+    name:       
+    - arandr
+        
+- name: Acessoires | openconnect
+  apt:
+    state: present
+    name:           
+    - openconnect
+    - network-manager-openconnect-gnome
+
+- name: Acessoires | keepassxc
+  apt:
+    state: latest
+    name:           
+    - keepassxc
+
+- name: Acessoires | clipman
+  apt:
+    state: latest
+    name:           
+    - clipman
+    
+- name: Acessoires | Post-it
+  apt:
+    state: latest
+    name:           
+    - gnote
+    
+- name: Acessoires | Documentation Debian
+  apt:
+    state: present
+    name:           
+    - debian-reference-fr

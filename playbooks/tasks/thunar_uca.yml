@@ -1,0 +1,48 @@
+---
+
+# Actions Thunar uca.xml
+
+- name: Thunar uca| /etc/skel/.config/Thunar
+  file:
+    path: /etc/skel/.config/Thunar
+    state: directory
+    
+- name:  Thunar uca | /home/{{ ansible_facts.env.SUDO_USER }}/.config/Thunar
+  file:
+    path: /home/{{ ansible_facts.env.SUDO_USER }}/.config/Thunar
+    state: directory
+    owner: '{{ ansible_facts.env.SUDO_USER }}'
+    group: '{{ ansible_facts.env.SUDO_USER }}'
+
+- name: Thunar uca | /home/{{ ansible_facts.env.SUDO_USER }}/.config/Thunar/uca.xml
+  copy:
+    src: /etc/xdg/Thunar/uca.xml
+    dest: '/home/{{ ansible_facts.env.SUDO_USER }}/.config/Thunar/'
+    remote_src: yes
+    force: no
+    owner: '{{ ansible_facts.env.SUDO_USER }}'
+    group: '{{ ansible_facts.env.SUDO_USER }}'
+
+- name: Thunar uca | Image-Resize
+  blockinfile:
+    path: /home/{{ ansible_facts.env.SUDO_USER }}/.config/Thunar/uca.xml
+    marker: "<!-- {mark} Image-Resize ANSIBLE MANAGED BLOCK -->"
+    insertbefore: "</actions>"
+    block: |
+      <action>
+        <icon>display-im6.q16</icon>
+        <name>Redimensionner Photos Images</name>
+        <unique-id>1431428885300447-5</unique-id>
+        <command>sh /opt/madeb/Image-Resize %F</command>
+        <description>Redimensionner Photos Images</description>
+        <patterns>*</patterns>
+        <image-files/>
+      </action>
+
+- name: Thunar uca | uca.xml '{{ ansible_facts.env.SUDO_USER }}' to skel
+  copy:
+    src: '/home/{{ ansible_facts.env.SUDO_USER }}/.config/Thunar/uca.xml'
+    dest: /etc/skel/.config/Thunar/
+    remote_src: yes    
+
+- import_tasks: thunar_uca_users.yml

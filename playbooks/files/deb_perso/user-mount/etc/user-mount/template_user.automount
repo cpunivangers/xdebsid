@@ -1,0 +1,11 @@
+[Unit]
+Description=Partages ${NAME_SHARE} ${USER_LOCAL}
+Requires=network-online.target
+
+[Automount]
+Where=${PATH_MOUNT}
+TimeoutIdleSec=60
+
+[Install]
+WantedBy=multi-user.target
+

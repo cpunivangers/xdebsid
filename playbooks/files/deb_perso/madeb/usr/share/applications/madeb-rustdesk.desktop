@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - rustdesk
+Comment=Installation ou maj rustdesk (bureau à distance)
+Exec=sudo bash task.sh rustdesk
+Icon=software-update-available
+Path=/opt/ansible/madeb13/
+Terminal=true
+StartupNotify=false
+Categories=madeb;

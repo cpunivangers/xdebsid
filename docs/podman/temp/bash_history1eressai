@@ -1,0 +1,716 @@
+sudo apt update && sudo apt -y dist-upgrade
+sudo apt -y install curl
+curl -sL https://raw.githubusercontent.com/cpunivangers/madeb12/main/files/update_madeb12.sh | bash
+sudo reboot
+sudo apt install openssh-server 
+ip addr
+#1695300867
+debclean 
+#1695300877
+cd /opt/madeb/
+#1695300882
+sh prepclone.sh 
+#1695307461
+df -h
+#1695307567
+sudo parted -s /dev/sdc mklabel msdos
+#1695307582
+sudo parted -s /dev/sdc mkpart primary fat32 0% 100%
+#1695307598
+sudo mkfs.vfat -n DF12CLONE /dev/sdc1
+#1695307635
+df -h
+#1695307673
+rsync -av --progress /media/bonjour/DF12CLONE/ /media/bonjour/DF12CLONE1/
+#1695308637
+sudo bash /media/bonjour/DF12CLONE1/utils/linux/makeboot.sh /dev/sdc1
+#1695308667
+exit
+#1695623135
+sudo parted -s /dev/sdc mklabel msdos
+#1695623153
+sudo parted -s /dev/sdc mkpart primary fat32 0% 100%
+#1695623178
+sudo mkfs.vfat -n DF12CLONE /dev/sdc1
+#1695623219
+udisksctl mount -b /dev/sdc1
+#1695623241
+rsync -av --progress /media/bonjour/DF12CLONE/ /media/bonjour/DF12CLONE1/
+#1695624420
+sudo bash /media/bonjour/DF12CLONE1/utils/linux/makeboot.sh /dev/sdc1
+#1697091643
+sudo parted -s /dev/sdc mklabel msdos
+#1697091655
+sudo parted -s /dev/sdc mkpart primary fat32 0% 100%
+#1697091666
+sudo mkfs.vfat -n DF12CLONE /dev/sdc1
+#1697091678
+udisksctl mount -b /dev/sdc1
+#1697091705
+rsync -av --progress /media/bonjour/DF12CLONE/ /media/bonjour/DF12CLONE1/
+#1697094370
+sudo bash /media/bonjour/DF12CLONE1/utils/linux/makeboot.sh /dev/sdc1
+#1697094959
+cd /opt/ansible/madeb12/docs/
+#1697094988
+bash clone_DFCLONE.sh 
+#1697095103
+sudo parted -s /dev/sdc mklabel msdos
+#1697095150
+sudo parted -s /dev/sdc mkpart primary fat32 0% 100%
+#1697095166
+sudo mkfs.vfat -n DFCLONE /dev/sdc
+#1697095187
+sudo mkfs.vfat -n DFCLONE /dev/sdc1
+#1697095211
+udisksctl mount -b /dev/sdc1
+#1697095255
+rsync -av --progress /media/bonjour/DF12CLONE/ /media/bonjour/DFCLONE/
+#1697096764
+sudo bash /media/bonjour/DFCLONE/utils/linux/makeboot.sh /dev/sdc1
+#1697096824
+bash clone_DFCLONE.sh 
+#1697096849
+sudo bash clone_DFCLONE.sh 
+#1697121890
+cd /opt/ansible/madeb12/docs/
+#1697121907
+bash clone_DFCLONE.sh 
+#1697121975
+sudo bash clone_DFCLONE.sh 
+#1697122032
+exit
+#1697110773
+cls
+#1697110776
+clear
+#1697110784
+parted
+#1697110794
+sudo parted
+#1697110994
+sudo parted /dev/sdb
+#1697182748
+sudo fdisk -l
+#1697183711
+exit
+#1697181030
+ls /media/bonjour/
+#1697181047
+ls /media/bonjour/DFCLONE/
+#1697181101
+ls /media/bonjour
+#1697181110
+ls -al /media/bonjour
+#1697181135
+sudo rm -rf /media/bonjour/DFCLONE/
+#1697181231
+ls -al /media/bonjour
+#1697181312
+udisksctl mount -b /dev/sdb1
+#1697181333
+ls -al /media/bonjour
+#1697181343
+ls -al /media/bonjour/DFCLONE/
+#1697181360
+udisksctl umount -b /dev/sdb1
+#1697181378
+udisksctl unmount -b /dev/sdb1
+#1697181389
+ls -al /media/bonjour/DFCLONE/
+#1697181478
+udisksctl unmount -b /dev/sdb1
+#1697181487
+udisksctl mount -b /dev/sdb1
+#1697181925
+ls -al /media/bonjour/DFCLONE/
+#1697181980
+ls -al /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1697182058
+if [ ! -d "/media/bonjour/DFCLONE/home/partimag/DF12-img" ];then 	echo "Le dossier /media/bonjour/DFCLONE/home/partimag/DF12-img n'existe pas !"; fi
+#1697182069
+if [ ! -d "/media/bonjour/DFCLONE/home/partimag/DF11-img" ];then 	echo "Le dossier /media/bonjour/DFCLONE/home/partimag/DF12-img n'existe pas !"; fi
+#1697182097
+if [ ! -d "/media/bonjour/DFCLONE/home/partimag/DF12-img" ];then 	echo "Le dossier /media/bonjour/DFCLONE/home/partimag/DF12-img n'existe pas !"; 	exit 1; fi
+#1697182139
+sudo parted -s /dev/sdc mklabel msdos
+#1697182155
+sudo mkfs.vfat -n DFCLONE /dev/sdc1
+#1697182245
+sudo parted -s /dev/sdc mkpart primary fat32 0% 100%
+#1697182261
+sudo mkfs.vfat -n DFCLONE /dev/sdc1
+#1697182279
+udisksctl mount -b /dev/sdc1
+#1697182309
+rsync -av --progress /media/bonjour/DFCLONE/ /media/bonjour/DFCLONE1/
+#1697183251
+sudo bash /media/bonjour/DFCLONE1/utils/linux/makeboot.sh /dev/sdc1
+#1697183281
+ls -al /media/bonjour/DFCLONE1/
+#1697183300
+ls -al /media/bonjour/DFCLONE1/home/partimag/
+#1697183324
+udisksctl unmount -b /dev/sdc1
+#1697183421
+ls
+#1697183440
+sh clone_DFCLONE.sh 
+#1697184976
+nano clone_DFCLONE.sh 
+#1697185153
+sh clone_DFCLONE.sh 
+#1697194086
+exit
+#1697780292
+MaMaj 
+#1697780331
+lsb_release 
+#1697780335
+lsb_release -a
+#1697780355
+more /etc/debian_version 
+#1697780372
+update_madeb 
+#1697780532
+sudo reboot
+#1697780582
+debclean 
+#1697780595
+cd /opt/madeb/
+#1697780602
+sh prepclone.sh 
+#1697780608
+sudo poweroff
+#1697787967
+unzip clonezilla-live-DF12-img.zip -d /media/$USER/DFCLONE/
+#1708352395
+ip a
+#1708352418
+MaMaj 
+#1708352697
+sudo reboot
+#1708352982
+debclean 
+#1708353006
+update_madeb 
+#1708353357
+sudo reboot
+#1708353586
+exit
+#1708353620
+cd /opt/madeb/
+#1708353625
+sh prepclone.sh 
+#1708353639
+sudo poweroff
+#1708356580
+cd /media/bonjour/IUTCLONES/
+#1708357057
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1708357094
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1708430215
+cd /opt/madeb/
+#1708430221
+sh prepclone.sh 
+#1708430231
+exit
+#1708433778
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1708433789
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1708433858
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1708433862
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1718023504
+sudo apt update 
+#1718023525
+sudo apt dist-upgrade 
+#1718024284
+exit
+#1718031569
+sudo apt update 
+#1718031585
+update_madeb 
+#1718032139
+sudo reboot
+#1718032303
+debclean 
+#1718032319
+cd /opt/madeb/
+#1718032325
+bash prepclone.sh 
+#1718032335
+sudo poweroff
+#1720183086
+MaMaj 
+#1720183332
+sudo reboot
+#1720183422
+debclean 
+#1720183437
+sudo reboot
+#1720183497
+exit
+#1720183510
+cd /opt/madeb/
+#1720183514
+sh prepclone.sh 
+#1720183520
+exit
+#1724317485
+ip q
+#1724317491
+ip a
+#1724317553
+sudo apt update
+#1724317594
+sudo apt dist-upgrade 
+#1724318019
+sudo reboot
+#1724318074
+update_madeb 
+#1724318262
+debclean 
+#1724318271
+sudo reboot
+#1724318528
+apt policy gyt-dl
+#1724318543
+apt policy youtubedl-gui 
+#1724318552
+exit
+#1724318739
+cd /opt/madeb/
+#1724318744
+sh prepclone.sh 
+#1724318751
+exit
+#1724333780
+ls -al /usr/share/mozilla/extensions/
+#1724333803
+HREF=$(curl -sL "https://addons.mozilla.org/fr/firefox/addon/grammalecte-fr/" | dos2unix | hxnormalize | grep "https://addons.mozilla.org/firefox/downloads/file/.*/grammalecte_fr-.*.xpi" | sed -r 's|.*"(.*)".*|\1|')
+#1724333818
+wget -O /tmp/grammalecte_fr.xpi $HREF 2>/dev/null
+#1724333860
+ls -al /tmp/
+#1724333885
+unzip -p /tmp/grammalecte_fr.xpi "manifest.json" | grep '"id": "' | sed -r 's|.*"(.*)".*|\1|'
+#1724333939
+unzip -p /tmp/grammalecte_fr.xpi "manifest.json" | grep '"id": "'
+#1724333979
+mkdir -p /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+#1724334014
+addon_id=$(unzip -p /tmp/grammalecte_fr.xpi "manifest.json" | grep '"id": "' | sed -r 's|.*"(.*)".*|\1|')
+#1724334053
+unzip -q /tmp/grammalecte_fr.xpi -d /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/$addon_id 2>/dev/null
+#1724334595
+unzip -q /tmp/grammalecte_fr.xpi -d /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/$addon_id
+#1724334626
+man unzip
+#1724334713
+rm -rf /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/$addon_id
+#1724334722
+sudo rm -rf /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/$addon_id
+#1724334788
+exit
+#1724334879
+addon_id=$(unzip -p /tmp/grammalecte_fr.xpi "manifest.json" | grep '"id": "' | sed -r 's|.*"(.*)".*|\1|')
+#1724334893
+echo $addon_id
+#1724334901
+sudo rm -rf /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/$addon_id
+#1724334914
+exit
+#1724335382
+update_madeb 
+#1724336143
+sudo reboot
+#1728460828
+ip qd
+#1728460833
+ip addr
+#1728460870
+sudo apt uddate
+#1728460884
+sudo apt update 
+#1728460904
+MaMaj 
+#1728461154
+update_madeb 
+#1728461503
+sudo reboot
+#1728461551
+debclean 
+#1728461569
+apt policy libreoffice
+#1728461584
+exit
+#1728463110
+cd /opt/madeb/
+#1728463118
+sh prepclone.sh 
+#1728463127
+exit
+#1728467986
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1728468019
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1728470326
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1728470337
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1732543930
+MaMaj 
+#1732544258
+sudo reboot
+#1732544361
+update_madeb 
+#1732544816
+apt policy tofrodos 
+#1732544828
+apt policy progress
+#1732544843
+sudo reboot 
+#1732544885
+debclean 
+#1732544912
+cd /opt/madeb/
+#1732544917
+sh prepclone.sh 
+#1732544955
+sudo poweroff 
+#1732546327
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1732546343
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1732606427
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1732606444
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1732627740
+exit
+#1732627800
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1732627813
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1732629530
+debclean 
+#1732629563
+ip addr
+#1732629618
+debclean 
+#1732629627
+cd /opt/madeb/
+#1732629630
+sh prepclone.sh 
+#1732629642
+sudo poweroff 
+#1732630220
+sudo rm -rf /media/bonjour/DFCLONE/home/partimag/DF12-img/
+#1732630233
+sudo rsync -av --progress DF12-img /media/bonjour/DFCLONE/home/partimag/
+#1732632768
+unzip clonezilla-live-DF12-img.zip -d /media/bonjour/DFCLONE/
+#1732691950
+cd /opt/madeb/
+#1732691956
+sh prepclone.sh 
+#1732691965
+sudo poweroff
+#1734431945
+MaMaj 
+#1734432765
+apt policy freerdp3-x11
+#1734432798
+sudo apt install -y dialog
+#1734432813
+sudo apt install -y freerdp3-x11 
+#1734432820
+apt policy freerdp3-x11
+#1734432843
+sudo apt install -y iproute libnotify nmap-ncat
+#1734432868
+sudo apt install -y iproute2 libnotify-bin netcat-openbsd
+#1734433100
+sudo apt git
+#1734433109
+sudo apt policy git
+#1734433137
+sudo apt install git
+#1734433177
+mkdir .config/winapps
+#1734433184
+cd .config/winapps/
+#1734433211
+git clone https://github.com/winapps-org/winapps
+#1734433218
+ls
+#1734433233
+cd ..
+#1734433242
+rm -rf winapps/
+#1734433247
+git clone https://github.com/winapps-org/winapps
+#1734433257
+ls
+#1734433270
+cd winapps/
+#1734433392
+podman-compose --file ./compose.yaml up
+#1734433401
+sudo apt install podman-compose
+#1734433420
+podman-compose --file ./compose.yaml up
+#1734443001
+podman-compose --file ./compose.yaml u
+#1734443019
+exit
+#1734443022
+it
+#1734443026
+exit
+#1734443040
+cd .config/winapps/
+#1734443051
+podman-compose --file ./compose.yaml down
+#1734443079
+podman-compose --file ./compose.yaml up &
+#1734443923
+./setup.sh 
+#1734591882
+podman ps --all --filter name="WinApps"
+#1734591903
+podman ps --all
+#1734591937
+podman-ps --all
+#1734591994
+podman ps --help
+#1734592011
+podman ps --all
+#1734592017
+sudo podman ps --all
+#1734592169
+podman ps
+#1734592175
+sudo podman ps
+#1734592324
+podman ps
+#1734593458
+ip add
+#1734593540
+podman --version
+#1734593563
+podman info
+#1734593647
+sudo podman info
+#1734593822
+podman info --debug
+#1734593881
+podman-compose --file ./compose.yaml down
+#1734593922
+cd .config/winapps/
+#1734593927
+podman-compose --file ./compose.yaml down
+#1734601981
+./setup.sh 
+#1734594134
+podman info --debug
+#1734594178
+podman info
+#1734594194
+podman --version
+#1734594201
+podman ps
+#1734594398
+systemctl --user status dbus.socket
+#1734594436
+podman ps -a
+#1734594613
+podman create --name c1 docker.io/busybox
+#1734594648
+podman ps
+#1734594656
+podman ps -a
+#1734594740
+podman rm c1
+#1734594781
+podman create --name c1 docker.io/busybox sleep infinity
+#1734594794
+podman ps -a
+#1734594798
+podman ps
+#1734594808
+podman start c1
+#1734594821
+podman ps
+#1734594858
+ps aux | grep sleep
+#1734594919
+podman stop c1
+#1734594936
+podman ps
+#1734594950
+podman ps -a
+#1734595061
+podman rm c1
+#1734595240
+podman run -d --name c1 docker.io/busybox sleep infinity
+#1734595252
+podman ps
+#1734595523
+podman rm -f c1
+#1734595540
+podman ps
+#1734595543
+podman ps -a
+#1734595563
+podman image ls
+#1734595874
+podman serch windows
+#1734595900
+podman search windows
+#1734595920
+podman search busybox
+#1734595934
+podman search nginx
+#1734595975
+cat /etc/containers/registries.conf
+#1734595988
+cat /etc/containers/registries.conf.d/shortnames.conf 
+#1734596166
+podman images
+#1734596238
+podman rmi af4709625109
+#1734596244
+podman images
+#1734596299
+podman info 
+#1734596336
+ls /home/bonjour/.local/share/
+#1734596342
+ls /home/bonjour/.local/share/containers/
+#1734596347
+ls /home/bonjour/.local/share/containers/storage/
+#1734596871
+podman run -d --name c1 nginx
+#1734596947
+podman run -d --name c1 docker.io/nginx
+#1734597111
+podman ps
+#1734597164
+podman exec -ti c1 bash
+#1734597432
+podman rm -f c1
+#1734597443
+podman ps -a
+#1734597524
+podman run -d --name c1 docker.io/debian sleep infinity
+#1734597559
+podman rm -f c1
+#1734597657
+podman run -ti --name c1 docker.io/debian
+#1734598637
+podman rm -f c1
+#1734598642
+podman ps -a
+#1734598649
+podman images
+#1734598676
+podman rmi 66f8bdd3810c
+#1734598690
+podman rmi ff869c3288a4
+#1734598706
+podman -v
+#1734598717
+podman run quay.io/podman/hello
+#1734598791
+podman-compose version
+#1734598824
+cd .config/winapps/
+#1734598836
+ls
+#1734598845
+cat compose.yaml 
+#1734598926
+more compose.yaml 
+#1734599181
+podman-compose --file ./compose.yaml up -d
+#1734599194
+podman ps
+#1734600383
+mkdir ~/shared
+#1734600694
+podman-compose --file ./compose.yaml up -d
+#1734600703
+podman ps
+#1734601817
+./setup.sh 
+#1734597230
+podman ps
+#1734597711
+podman attach c1
+#1734602464
+podman ps
+#1734602468
+podman ps -a
+#1734602700
+cd .config/winapps/
+#1734602706
+podman-compose --file ./compose.yaml up -d
+#1734602744
+podman ps
+#1734602755
+exit
+#1734604619
+cp /lib/systemd/system/podman-restart.service $HOME/.config/systemd/user/
+#1734604690
+systemctl --user status podman-restart.service
+#1734604794
+systemctl --user start podman-restart.service
+#1734604799
+systemctl --user status podman-restart.service
+#1734604821
+podman ps
+#1734604870
+podman-compose --file ./compose.yaml up -d
+#1734604898
+cd .config/winapps/
+#1734604903
+podman-compose --file ./compose.yaml up -d
+#1734604916
+podman ps
+#1734605791
+sudo reboot
+#1734602818
+podman ps
+#1734602825
+podman ps -a
+#1734603861
+podman ps
+#1734606218
+podman start WinApps
+#1734606232
+podman ps
+#1734606348
+podman ps -a
+#1734606393
+podman rm -f dcc1e6ef0843
+#1734606397
+podman ps -a
+#1734606401
+podman ps
+#1734606415
+podman start WinApps
+#1734606419
+podman ps
+#1734608217
+podman ps -a
+#1734608280
+podman start WinApps
+#1734608290
+podman ps -a
+#1734608297
+podman ps

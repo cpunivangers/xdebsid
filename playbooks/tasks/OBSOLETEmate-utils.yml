@@ -1,0 +1,19 @@
+---
+# deb12 OBSOLETE
+# Utilitaires Mate :Utilisation du disque, Visionneur de journaux system, Recherche fichier
+
+- name: installation du paquet mate-utils
+  apt:
+    state: present
+    name:
+    - mate-utils
+
+- name: Mise à dispo outils Mate pour XFCE
+  lineinfile:
+    path: '/usr/share/applications/{{ item }}.desktop'
+    regexp: '^OnlyShowIn=MATE;'
+    line: 'OnlyShowIn=MATE;XFCE;'
+  with_items:
+    - mate-search-tool
+    - mate-disk-usage-analyzer
+    - mate-system-log

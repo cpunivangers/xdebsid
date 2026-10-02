@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# 01/2022
+# Christian.pottier@univ-angers.fr
+#
+# création 
+# Nettoyage des units systemd d'automontage des partages réseaux de l'utilisateur
+
+if [ -z $1 ]; then
+	UTIL=$USER
+else
+	UTIL=$1
+fi
+
+if [ ! -e /home/$UTIL ] ; then
+	echo /home/$UTIL inexistant !!!
+	exit 1
+fi
+
+echo -n "Nettoyage des units systemd d'automontage des partages réseaux de l'utilisateur $UTIL (O/..)?"
+read ACCORD
+if [ "$ACCORD" != "O" ] ; then exit ; fi
+
+sudo systemctl status home-${UTIL}-*
+sudo systemctl stop home-${UTIL}-*
+
+sudo rm /etc/systemd/system/home-${UTIL}-*
+sudo rm /etc/systemd/system/multi-user.target.wants/home-${UTIL}-*
+sudo rm -rf /home/${UTIL}/.config/user-mount
+
+exit 0

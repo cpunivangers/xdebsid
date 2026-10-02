@@ -1,0 +1,4 @@
+preseed/
+*.retry
+*.backup
+svgdir.sh

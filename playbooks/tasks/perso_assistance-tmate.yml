@@ -1,0 +1,14 @@
+# installation paquets perso
+
+- name : assistance-tmate
+  set_fact:
+    pkg:
+      name: assistance-tmate
+      url: /opt/deb_perso/assistance-tmate.deb
+      vers: 251104.0747
+- import_tasks: url_pkg.yml
+
+#~ - name: assistance-tmate | magic-wormhole pour transfert fichier
+  #~ apt:
+    #~ state: present
+    #~ name: magic-wormhole

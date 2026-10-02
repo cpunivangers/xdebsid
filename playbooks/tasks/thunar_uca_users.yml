@@ -1,0 +1,31 @@
+---
+
+# Actions Thunar uca.xml users
+
+- name: Thunar uca.xml | Listes des utilisateurs
+  shell: find /home/*/.config/Thunar -name "uca.xml" | cut -d/ -f3
+  register: retour_shell
+  changed_when: false
+
+#~ - name: users
+  #~ debug:
+    #~ msg:
+      #~ - " {{ retour_shell.stdout_lines }}"
+
+- name: Thunar uca users | Image-Resize
+  blockinfile:
+    path: /home/{{ item }}/.config/Thunar/uca.xml
+    marker: "<!-- {mark} Image-Resize ANSIBLE MANAGED BLOCK -->"
+    insertbefore: "</actions>"
+    block: |
+      <action>
+        <icon>display-im6.q16</icon>
+        <name>Redimensionner Photos Images</name>
+        <unique-id>1431428885300447-5</unique-id>
+        <command>sh /opt/madeb/Image-Resize %F</command>
+        <description>Redimensionner Photos Images</description>
+        <patterns>*</patterns>
+        <image-files/>
+      </action>
+  with_items: "{{ retour_shell.stdout_lines }}"
+

@@ -1,0 +1,15 @@
+---
+
+- name: installation libdvd-pkg pour libdvdcss2
+  apt:
+   state: present
+   name:
+   - libdvd-pkg
+  tags: sonvideo
+  
+- name: Configure libdvd-pkg
+  command: dpkg-reconfigure libdvd-pkg
+  tags: sonvideo
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  changed_when: False

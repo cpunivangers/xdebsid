@@ -1,0 +1,12 @@
+---
+
+- name: wakeonline
+  import_playbook: wakeonlan.yml
+
+- hosts: deb
+  gather_facts: no
+  become: true
+  tasks:
+    - name: update madeb
+      shell: update_madeb
+      changed_when: false

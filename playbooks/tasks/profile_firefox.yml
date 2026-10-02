@@ -1,0 +1,44 @@
+---
+- name: firefox | /usr/local/etc/madeb/firefox
+  file:
+    path: /usr/local/etc/madeb/firefox
+    state: directory
+    
+- name: firefox | Copy profile mozilla mozilla.tar.gz
+  copy:
+    src: mozilla.tar.gz
+    dest: /usr/local/etc/madeb/firefox
+  register: return_copy
+  
+- block:
+  # Maj profil firefox
+  - name: firefox | test profil .mozilla existe
+    stat:
+      path:  ~/.mozilla
+    register: dir_mozilla
+    become_user: '{{ ansible_facts.env.SUDO_USER }}'
+    
+  - name: firefox | untar profile .mozilla
+    unarchive:
+      src: /usr/local/etc/madeb/firefox/mozilla.tar.gz
+      dest: ~/
+      remote_src: yes
+    become_user: '{{ ansible_facts.env.SUDO_USER }}'
+    when: not dir_mozilla.stat.exists
+
+  # Maj profil firefox skel
+  - name: firefox | Suppr .mozilla skel
+    file:
+      path:  /etc/skel/.mozilla
+      state: absent
+   
+  - name: firefox | untar profile .mozilla skel
+    unarchive:
+      src: /usr/local/etc/madeb/firefox/mozilla.tar.gz
+      dest: /etc/skel/
+      remote_src: yes
+      owner: root
+      group: root
+
+  when: return_copy.changed == true
+

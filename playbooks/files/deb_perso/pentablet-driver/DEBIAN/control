@@ -1,0 +1,8 @@
+Package: Pentablet-Driver
+Version: 200708.0840
+Section: base
+Priority: optional
+Architecture: all
+Depends: xserver-xorg-input-wacom, xinput, x11-xserver-utils, evtest, libnotify-bin, xdotool, xinput-calibrator
+Maintainer: Christian Pottier <christian.pottier@univ-angers.fr>
+Description: XP-PEN driver Officiel

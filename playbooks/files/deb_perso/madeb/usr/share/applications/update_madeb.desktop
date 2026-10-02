@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - version
+Comment=Téléchargement et mise à jour de madeb
+Exec=bash /opt/ansible/madeb13/madeb_version.sh
+Icon=software-update-available
+Path=/opt/ansible/madeb13/
+Terminal=true
+StartupNotify=false
+Categories=madeb;

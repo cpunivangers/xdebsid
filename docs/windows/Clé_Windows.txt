@@ -1,0 +1,4 @@
+Clé Windows 8 8.1
+Ouvrir l'invite de commande Admin :
+
+powershell "(Get-WmiObject -query ‘select * from SoftwareLicensingService’).OA3xOriginalProductKey"

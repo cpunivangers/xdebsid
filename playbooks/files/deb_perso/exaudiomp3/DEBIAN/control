@@ -1,0 +1,8 @@
+Package: exAudioMp3
+Version: 0.150908.0944
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash, ffmpeg, libmp3lame0, zenity
+Maintainer: Christian Pottier <christian.pottier@univ-angers.fr>
+Description: Extraction piste audio d'un fichier webm ou mp4

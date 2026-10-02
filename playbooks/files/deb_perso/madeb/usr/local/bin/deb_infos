@@ -1,0 +1,4 @@
+#!/bin/sh
+ 
+cd /opt/madeb
+sh deb_infos.sh

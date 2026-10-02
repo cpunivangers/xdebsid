@@ -1,0 +1,17 @@
+---
+
+- name: OnlyOffice | depot
+  deb822_repository:
+    name: onlyoffice-desktopeditors
+    types: deb
+    uris: https://download.onlyoffice.com/repo/debian
+    suites: squeeze
+    components: main
+    architectures: amd64
+    signed_by: https://download.onlyoffice.com/GPG-KEY-ONLYOFFICE
+    enabled: true
+    
+- name: OnlyOffice | install OnlyOffice
+  apt:
+    name: onlyoffice-desktopeditors
+    update_cache: yes

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=madeb - spotify
+Comment=Installation spotify (lecteur web de musique)
+Exec=sudo bash task.sh spotify
+Icon=software-update-available
+Path=/opt/ansible/madeb13/
+Terminal=true
+StartupNotify=false
+Categories=madeb;

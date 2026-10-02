@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Categories=Office;
+Exec='/usr/local/bin/epuboptim.sh' %f
+Icon=epuboptim.svg
+Name=epuboptim
+Comment=optimise fichier epub
+#NoDisplay=true
+MimeType=application/epub+zip;application/ereader;
